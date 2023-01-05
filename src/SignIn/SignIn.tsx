@@ -7,17 +7,31 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  Alert,
 } from 'react-native';
 
 import Logo from '../assets/images/logoTaqtile.png';
+
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+
+const RegexEmail = RegExp(/^[\w-\.]{3,}@([\w-]{3,}\.)+(?:com)$/);
+const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onSignInPressed = () => {
+    const isEmailValid = RegexEmail.test(email);
+    const isPasswordValid = RegexPassword.test(password);
+
+    if (!isEmailValid) {
+      return Alert.alert('Email inválido!');
+    }
+    if (!isPasswordValid) {
+      return Alert.alert('Senha Inválida!');
+    }
     console.warn('Sign in');
   };
 
@@ -38,12 +52,15 @@ const SignIn = () => {
         placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
+        onSubmitEditing={onSignInPressed}
         keyboardType="email-address"
+        returnKeyType="next"
       />
       <CustomInput
         placeholder="Senha"
         value={password}
         onChangeText={setPassword}
+        onSubmitEditing={onSignInPressed}
         secureTextEntry
       />
       <CustomButton text="Entrar" onPress={onSignInPressed} />
@@ -58,15 +75,14 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: '40%',
-    maxWidth: 200,
-    maxHeight: 200,
+    maxWidth: 150,
+    maxHeight: 150,
   },
   title: {
     marginBottom: 'auto',
     textAlign: 'center',
     fontSize: 28,
     fontWeight: 'bold',
-    paddingBottom: 80,
   },
 });
 
