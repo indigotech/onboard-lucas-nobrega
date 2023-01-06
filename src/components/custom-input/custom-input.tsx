@@ -1,7 +1,7 @@
 import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
 import React from 'react';
 
-const CustomInput = ({...rest}: TextInputProps) => {
+export const CustomInput = ({...rest}: TextInputProps) => {
   return (
     <View style={styles.container}>
       <TextInput
@@ -32,5 +32,3 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
 });
-
-export default CustomInput;

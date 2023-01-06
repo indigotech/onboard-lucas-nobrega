@@ -12,17 +12,19 @@ import {
 
 import Logo from '../assets/images/logoTaqtile.png';
 
-import CustomInput from '../components/CustomInput';
-import CustomButton from '../components/CustomButton';
+import {CustomInput} from '../components/custom-input';
+import {CustomButton} from '../components/custom-button';
 
-const RegexEmail = RegExp(/^[\w-\.]{3,}@([\w-]{3,}\.)+(?:com)$/);
+import {consultLogin} from '../api/confirm-login';
+
+const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
 const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
 
-const SignIn = () => {
+export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSignInPressed = () => {
+  const handleSignInPressed = async () => {
     const isEmailValid = RegexEmail.test(email);
     const isPasswordValid = RegexPassword.test(password);
 
@@ -32,7 +34,7 @@ const SignIn = () => {
     if (!isPasswordValid) {
       return Alert.alert('Senha Inválida!');
     }
-    console.warn('Sign in');
+    await consultLogin(email, password);
   };
 
   const {height} = useWindowDimensions();
@@ -52,7 +54,7 @@ const SignIn = () => {
         placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
-        onSubmitEditing={onSignInPressed}
+        onSubmitEditing={handleSignInPressed}
         keyboardType="email-address"
         returnKeyType="next"
       />
@@ -60,10 +62,10 @@ const SignIn = () => {
         placeholder="Senha"
         value={password}
         onChangeText={setPassword}
-        onSubmitEditing={onSignInPressed}
+        onSubmitEditing={handleSignInPressed}
         secureTextEntry
       />
-      <CustomButton text="Entrar" onPress={onSignInPressed} />
+      <CustomButton text="Entrar" onPress={handleSignInPressed} />
     </KeyboardAvoidingView>
   );
 };
@@ -85,5 +87,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default SignIn;
