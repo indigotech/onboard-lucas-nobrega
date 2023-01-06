@@ -28,4 +28,5 @@ After that, just run:
 
 ```bash
 npm run ios || yarn run ios
+npm run android || yarn run android
 ```
