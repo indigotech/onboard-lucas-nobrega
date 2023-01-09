@@ -1,7 +1,8 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {SignIn} from './src/sign-in';
+import {Route} from './src/routes/router';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import {AuthProvider} from './src/contexts/auth';
 
 export const client = new ApolloClient({
   uri: 'https://template-onboarding-node-sjz6wnaoia-uc.a.run.app/graphql',
@@ -12,7 +13,9 @@ export const App = () => {
   return (
     <ApolloProvider client={client}>
       <SafeAreaView style={styles.root}>
-        <SignIn />
+        <AuthProvider>
+          <Route />
+        </AuthProvider>
       </SafeAreaView>
     </ApolloProvider>
   );

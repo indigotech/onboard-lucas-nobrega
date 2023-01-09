@@ -21,12 +21,12 @@ cd TAQ-GITHUB-BOT
 Now it's time to install the dependencies:
 
 ```bash
-npm install || yarn install
+npm install
 ```
 
 After that, just run:
 
 ```bash
-npm run ios || yarn run ios
-npm run android || yarn run android
+npm run ios
+npm run android
 ```
