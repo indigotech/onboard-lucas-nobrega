@@ -7,8 +7,8 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {authService} from '../services/auth-service';
-import {GraphQLServerError} from '../global/interfaces/graphql-server-error';
 import {Alert} from 'react-native';
+import {ApolloError} from '@apollo/client';
 
 export interface AuthData {
   login: {
@@ -48,9 +48,9 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         const _authData: AuthData = JSON.parse(authDataSerialized);
         setAuthData(_authData);
       }
-    } catch (error) {
-      const graphQLError = error as GraphQLServerError;
-      Alert.alert(graphQLError.graphQLErrors[0].message);
+    } catch (error: any) {
+      // alterar para serviço de log posteriormente
+      console.warn(error);
     } finally {
       setIsLoading(false);
     }
@@ -60,18 +60,22 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     try {
       setIsLoading(true);
       const auth = await authService.signIn(email, password);
-      AsyncStorage.setItem('@AuthData', JSON.stringify(auth));
+      await AsyncStorage.setItem('@AuthData', JSON.stringify(auth));
       setAuthData(auth);
-    } catch (error) {
-      const graphQLError = error as GraphQLServerError;
-      Alert.alert(graphQLError.graphQLErrors[0].message);
+    } catch (error: any) {
+      if (error instanceof ApolloError) {
+        return Alert.alert('Erro de Credenciais', error.message);
+      }
+      // alterar para serviço de log posteriormente
+      Alert.alert('Algo deu errado', 'tente novamente mais tarde.');
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   }
   async function signOut() {
     setAuthData(null);
-    AsyncStorage.removeItem('@AuthData');
+    await AsyncStorage.removeItem('@AuthData');
 
     return;
   }

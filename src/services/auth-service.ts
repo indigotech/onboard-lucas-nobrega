@@ -18,6 +18,7 @@ async function signIn(email: string, password: string): Promise<AuthData> {
     mutation: loginMutation,
     variables: {data: {email, password}},
   });
+  console.log('resp', resp);
   return resp.data.login;
 }
 
