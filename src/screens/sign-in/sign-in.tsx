@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 
-import Logo from '../../assets/images/logoTaqtile.png';
+import Logo from '../../assets/images/logo.png';
 
 import {CustomInput} from '../../components/custom-input';
 import {CustomButton} from '../../components/custom-button';
@@ -61,6 +61,7 @@ export const SignIn = () => {
         placeholder="Senha"
         value={password}
         onChangeText={setPassword}
+        onSubmitEditing={handleSignInPressed}
         secureTextEntry
       />
       <CustomButton text="Entrar" onPress={handleSignInPressed} />
