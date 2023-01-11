@@ -1,18 +1,21 @@
 import {View, TextInput, StyleSheet, TextInputProps} from 'react-native';
-import React from 'react';
+import React, {forwardRef} from 'react';
 
-export const CustomInput = ({...rest}: TextInputProps) => {
-  return (
-    <View style={styles.container}>
-      <TextInput
-        {...rest}
-        placeholderTextColor={'gray'}
-        style={styles.input}
-        autoCapitalize="none"
-      />
-    </View>
-  );
-};
+export const CustomInput = forwardRef<TextInput, TextInputProps>(
+  ({...rest}, ref) => {
+    return (
+      <View style={styles.container}>
+        <TextInput
+          {...rest}
+          placeholderTextColor={'gray'}
+          style={styles.input}
+          autoCapitalize="none"
+          ref={ref}
+        />
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {

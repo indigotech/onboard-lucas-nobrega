@@ -58,9 +58,13 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
   async function signIn(email: string, password: string) {
     try {
+      console.log('chegou 0');
       setIsLoading(true);
+      console.log('chegou 1');
       const auth = await authService.signIn(email, password);
+      console.log('chegou 2');
       await AsyncStorage.setItem('@AuthData', JSON.stringify(auth));
+      console.log('chegou 3');
       setAuthData(auth);
     } catch (error: any) {
       if (error instanceof ApolloError) {

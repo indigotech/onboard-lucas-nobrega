@@ -9,7 +9,7 @@ import {SeparatorItem} from '../../components/separator-item';
 
 export const Home = () => {
   const {signOut} = useAuth();
-
+  console.log('home');
   const renderItem = ({item}: ListRenderItemInfo<UserList>) => {
     return <UserItem {...item} />;
   };
@@ -29,7 +29,7 @@ export const Home = () => {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: '#e6e6e6',
+    backgroundColor: '#f6f6f6',
     flex: 1,
   },
   footer: {

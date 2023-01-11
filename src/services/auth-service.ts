@@ -1,4 +1,4 @@
-import {client} from '../../App';
+import {client} from '../libs/apollo-client';
 import {loginMutation} from '../api/graphql';
 
 export interface AuthDataSimple {
