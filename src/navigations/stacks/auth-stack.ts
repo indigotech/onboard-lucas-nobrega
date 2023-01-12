@@ -1,11 +1,19 @@
-import {LayoutStack} from 'react-native-navigation';
+import {LayoutRoot} from 'react-native-navigation';
+import {SCREENS} from '..';
 
-export const authStack: LayoutStack = {
-  children: [
-    {
-      component: {
-        name: 'com.TaqOnboard.SignIn',
+export function setAuthStack(): LayoutRoot {
+  return {
+    root: {
+      stack: {
+        id: 'AUTH_STACK',
+        children: [
+          {
+            component: {
+              name: SCREENS.signIn.name,
+            },
+          },
+        ],
       },
     },
-  ],
-};
+  };
+}

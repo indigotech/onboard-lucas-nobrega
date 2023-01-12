@@ -1,11 +1,19 @@
-import {LayoutStack} from 'react-native-navigation';
+import {LayoutRoot} from 'react-native-navigation';
+import {SCREENS} from '..';
 
-export const appStack: LayoutStack = {
-  children: [
-    {
-      component: {
-        name: 'com.TaqOnboard.Home',
+export function setAppStack(): LayoutRoot {
+  return {
+    root: {
+      stack: {
+        id: 'APP_STACK',
+        children: [
+          {
+            component: {
+              name: SCREENS.home.name,
+            },
+          },
+        ],
       },
     },
-  ],
-};
+  };
+}

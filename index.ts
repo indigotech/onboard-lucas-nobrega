@@ -1,3 +1,3 @@
-import {setupNavigation} from './src/navigations/setup';
+import {bootstrap} from './src/bootstrap';
 
-setupNavigation();
+bootstrap();
