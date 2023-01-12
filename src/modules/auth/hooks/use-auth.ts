@@ -41,6 +41,7 @@ export const useAuth = () => {
   }, []);
 
   return {
+    token: Auth.token,
     isLoading,
     signIn,
     signOut,

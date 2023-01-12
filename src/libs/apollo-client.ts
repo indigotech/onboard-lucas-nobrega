@@ -1,6 +1,22 @@
-import {ApolloClient, InMemoryCache} from '@apollo/client';
+import {useAsyncStorage} from '@react-native-community/async-storage';
+import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: 'https://template-onboarding-node-sjz6wnaoia-uc.a.run.app/graphql',
+});
+
+const authLink = setContext(async (_, {headers}) => {
+  const token = await useAsyncStorage('token').getItem();
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `${token}` : '',
+    },
+  };
+});
 
 export const client = new ApolloClient({
-  uri: 'https://template-onboarding-node-sjz6wnaoia-uc.a.run.app/graphql',
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
