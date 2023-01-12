@@ -1,72 +1,103 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Navigation} from 'react-native-navigation';
-import {Button} from '../../../components/button';
-import {Input} from '../../../components/input';
-import {Auth} from '../stores/auth-store';
-import {SCREENS, NavigationDefaultProps} from '../../../navigations';
+import React, {useRef, useState} from 'react';
+import {
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Keyboard,
+  Platform,
+  useWindowDimensions,
+  Text,
+  TextInput,
+} from 'react-native';
+import {CustomButton} from '../../../components/custom-button';
+import {CustomInput} from '../../../components/custom-input';
+import Logo from '../../../assets/images/logo.png';
+import {useAuth} from '../hooks/use-auth';
 
-export function SignInScreen(props: NavigationDefaultProps) {
+export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {signIn} = Auth.useActions();
+  const {signIn, isLoading} = useAuth();
 
-  function goToForgotPasswordScreen() {
-    Navigation.push(props.componentId, {
-      component: {
-        name: SCREENS.forgotPassword.name,
-      },
-    });
-  }
+  const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
+  const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
+  const passwordInputRef = useRef<TextInput>(null);
 
-  async function handleSignIn() {
+  async function handleSignInPressed() {
+    const isEmailValid = RegexEmail.test(email);
+    const isPasswordValid = RegexPassword.test(password);
+
+    if (!isEmailValid) {
+      return Alert.alert('Email inválido!');
+    }
+    if (!isPasswordValid) {
+      return Alert.alert('Senha Inválida!');
+    }
     await signIn({email, password});
   }
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SignIn</Text>
+  const {height} = useWindowDimensions();
 
-      <Input
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.root}
+      onTouchStart={Keyboard.dismiss}>
+      <Image
+        source={Logo}
+        style={[styles.logo, {height: height * 0.3}]}
+        resizeMode="contain"
+      />
+      <Text style={styles.title}>Bem-vindo(a){'\n'}à Taqtile!</Text>
+      <CustomInput
+        placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
-        placeholder="Seu email"
-        autoCapitalize="none"
+        onSubmitEditing={() => {
+          passwordInputRef.current?.focus();
+        }}
+        keyboardType="email-address"
+        returnKeyType="next"
+        blurOnSubmit={false}
       />
-
-      <Input
+      <CustomInput
+        placeholder="Senha"
         value={password}
         onChangeText={setPassword}
-        placeholder="Sua senha"
+        onSubmitEditing={handleSignInPressed}
+        returnKeyType="send"
         autoCapitalize="none"
+        ref={passwordInputRef}
+        blurOnSubmit={false}
         secureTextEntry
       />
 
-      <Button style={styles.button} onPress={handleSignIn}>
-        Entrar
-      </Button>
-
-      <Button.Link onPress={goToForgotPasswordScreen}>
-        Esqueceu sua senha?
-      </Button.Link>
-    </View>
+      <CustomButton
+        text="Entrar"
+        isLoading={isLoading}
+        onPress={handleSignInPressed}
+      />
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 24,
+    marginTop: '15%',
+  },
+  logo: {
+    width: '40%',
+    maxWidth: 150,
+    maxHeight: 150,
   },
   title: {
-    fontSize: 24,
-    color: '#1B2559',
-    marginBottom: 32,
-  },
-  button: {
-    marginBottom: 16,
+    marginBottom: 'auto',
+    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: 'bold',
   },
 });

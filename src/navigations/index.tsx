@@ -2,7 +2,7 @@ import {Navigation} from 'react-native-navigation';
 
 import {withProviders} from '../providers';
 import {HomeScreen} from '../screens/home';
-import {SignInScreen, ForgotPasswordScreen} from '../modules/auth';
+import {SignInScreen} from '../modules/auth';
 import {setIsAuthenticatedStack} from './utils/setIsAuthenticatedStack';
 
 export type NavigationDefaultProps = {
@@ -18,10 +18,6 @@ export const SCREENS = {
   signIn: {
     name: 'SignIn',
     component: SignInScreen,
-  },
-  forgotPassword: {
-    name: 'ForgotPassword',
-    component: ForgotPasswordScreen,
   },
 };
 
