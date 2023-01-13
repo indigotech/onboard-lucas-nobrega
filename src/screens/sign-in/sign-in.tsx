@@ -10,12 +10,11 @@ import {
   Alert,
 } from 'react-native';
 
-import Logo from '../assets/images/logoTaqtile.png';
+import Logo from '../../assets/images/logoTaqtile.png';
 
-import {CustomInput} from '../components/custom-input';
-import {CustomButton} from '../components/custom-button';
-
-import {consultLogin} from '../api/confirm-login';
+import {CustomInput} from '../../components/custom-input';
+import {CustomButton} from '../../components/custom-button';
+import {useAuth} from '../../contexts/auth';
 
 const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
 const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
@@ -23,6 +22,7 @@ const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {signIn} = useAuth();
 
   const handleSignInPressed = async () => {
     const isEmailValid = RegexEmail.test(email);
@@ -34,7 +34,7 @@ export const SignIn = () => {
     if (!isPasswordValid) {
       return Alert.alert('Senha Inválida!');
     }
-    await consultLogin(email, password);
+    signIn(email, password);
   };
 
   const {height} = useWindowDimensions();
@@ -54,7 +54,6 @@ export const SignIn = () => {
         placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
-        onSubmitEditing={handleSignInPressed}
         keyboardType="email-address"
         returnKeyType="next"
       />
@@ -62,7 +61,6 @@ export const SignIn = () => {
         placeholder="Senha"
         value={password}
         onChangeText={setPassword}
-        onSubmitEditing={handleSignInPressed}
         secureTextEntry
       />
       <CustomButton text="Entrar" onPress={handleSignInPressed} />

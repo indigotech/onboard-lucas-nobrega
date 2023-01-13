@@ -1,7 +1,9 @@
-import {Text, StyleSheet, Pressable} from 'react-native';
+import {Text, StyleSheet, Pressable, GestureResponderEvent} from 'react-native';
 import React from 'react';
-
-import {CustomButtonProps} from '../../global/types/buttom-props';
+interface CustomButtonProps {
+  onPress: (event: GestureResponderEvent) => void;
+  text: string;
+}
 
 export const CustomButton = ({onPress, text}: CustomButtonProps) => {
   return (
