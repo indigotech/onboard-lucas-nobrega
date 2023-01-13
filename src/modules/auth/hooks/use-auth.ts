@@ -1,6 +1,7 @@
-import {useCallback, useState} from 'react';
+import {useCallback} from 'react';
 import {Auth, INITIAL_STORE} from '../stores/auth-store';
 import {useLoginMutation} from '../graphql/mutations/login';
+import {Alert} from 'react-native';
 
 export type Credentials = {
   email: string;
@@ -8,12 +9,10 @@ export type Credentials = {
 };
 
 export const useAuth = () => {
-  const [login] = useLoginMutation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [login, {loading}] = useLoginMutation();
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
-      setIsLoading(true);
       const {data, errors} = await login({
         variables: {
           data: credentials,
@@ -21,7 +20,10 @@ export const useAuth = () => {
       });
 
       if (!data || errors) {
-        setIsLoading(false);
+        Alert.alert(
+          'Credenciais Inválidas',
+          'Por favor, verifique seu e-mail e senha',
+        );
         return;
       }
       Auth.useStore.setState(prevStore => ({
@@ -29,8 +31,6 @@ export const useAuth = () => {
         token: data.login.token ?? null,
         user: data.login.user ?? null,
       }));
-
-      setIsLoading(false);
     },
     [login],
   );
@@ -41,7 +41,7 @@ export const useAuth = () => {
 
   return {
     token: Auth.token,
-    isLoading,
+    isLoading: loading,
     signIn,
     signOut,
   };

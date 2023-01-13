@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {QueryDataNodes} from '../models/user';
+import {UserListResponseNodes} from '../modules/users/graphql/type-query';
 
 export function UserList({
   role,
@@ -9,7 +9,7 @@ export function UserList({
   id,
   email,
   birthDate,
-}: QueryDataNodes) {
+}: UserListResponseNodes) {
   const maskString = {
     apply(value: string, pattern = '') {
       let i = 0;
