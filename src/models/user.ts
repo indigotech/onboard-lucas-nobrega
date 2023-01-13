@@ -1,19 +1,10 @@
-export type User = {
+export interface User {
   id: string;
   name: string;
   phone: string;
   birthDate: string;
   email: string;
   role: string;
-};
-
-export interface QueryDataNodes {
-  role: string;
-  phone: string;
-  name: string;
-  id: string;
-  email: string;
-  birthDate: string;
 }
 
 interface QueryDataPageInfo {
@@ -23,10 +14,13 @@ interface QueryDataPageInfo {
   hasPreviousPage: boolean;
 }
 
+export interface QueryDataCount {
+  count: number;
+}
 export interface QueryData {
   users: {
-    nodes: QueryDataNodes[];
-    count: number;
+    nodes: User[];
+    count: QueryDataCount;
     pageInfo: QueryDataPageInfo[];
   };
 }
