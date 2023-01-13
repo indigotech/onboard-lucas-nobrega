@@ -41,6 +41,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   }, []);
 
   async function loadStorageData(): Promise<void> {
+    setIsLoading(true);
     try {
       const authDataSerialized = await AsyncStorage.getItem('@AuthData');
       if (authDataSerialized) {
@@ -57,12 +58,15 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
   async function signIn(email: string, password: string) {
     try {
+      setIsLoading(true);
       const auth = await authService.signIn(email, password);
       AsyncStorage.setItem('@AuthData', JSON.stringify(auth));
       setAuthData(auth);
     } catch (error) {
       const graphQLError = error as GraphQLServerError;
       Alert.alert(graphQLError.graphQLErrors[0].message);
+    } finally {
+      setIsLoading(false);
     }
   }
   async function signOut() {
