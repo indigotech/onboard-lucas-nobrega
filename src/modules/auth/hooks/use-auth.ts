@@ -24,7 +24,6 @@ export const useAuth = () => {
         setIsLoading(false);
         return;
       }
-      console.log('chegou');
       Auth.useStore.setState(prevStore => ({
         ...prevStore,
         token: data.login.token ?? null,

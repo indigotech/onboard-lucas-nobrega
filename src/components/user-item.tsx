@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {QueryDataNodes} from '../models/user';
 
-export function UserItem({
+export function UserList({
   role,
   phone,
   name,
