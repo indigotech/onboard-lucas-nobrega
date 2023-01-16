@@ -2,13 +2,13 @@ import {Navigation} from 'react-native-navigation';
 
 import {withProviders} from '../providers';
 import {HomeScreen} from '../screens/home';
-import {SignInScreen} from '../modules/auth';
+import {SignInScreen, SignUpScreen} from '../modules/auth';
 import {setIsAuthenticatedStack} from './utils/setIsAuthenticatedStack';
 
-export type NavigationDefaultProps = {
+export interface NavigationDefaultProps {
   componentId: string;
   rootTag: number;
-};
+}
 
 export const SCREENS = {
   home: {
@@ -18,6 +18,10 @@ export const SCREENS = {
   signIn: {
     name: 'SignIn',
     component: SignInScreen,
+  },
+  signUp: {
+    name: 'SignUp',
+    component: SignUpScreen,
   },
 };
 

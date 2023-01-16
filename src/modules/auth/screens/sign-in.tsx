@@ -14,8 +14,11 @@ import {CustomButton} from '../../../components/custom-button';
 import {CustomInput} from '../../../components/custom-input';
 import Logo from '../../../assets/images/logo.png';
 import {useAuth} from '../hooks/use-auth';
+import {Navigation} from 'react-native-navigation';
+import {SCREENS, NavigationDefaultProps} from '../../../navigations';
+import {CustomButtonLink} from '../../../components/custom-button-link';
 
-export function SignInScreen() {
+export function SignInScreen(props: NavigationDefaultProps) {
   const [email, setEmail] = useState('admin@taqtile.com.br');
   const [password, setPassword] = useState('1234qwer');
 
@@ -39,6 +42,14 @@ export function SignInScreen() {
   }
 
   const {height} = useWindowDimensions();
+
+  function goToSingUpScreen() {
+    Navigation.push(props.componentId, {
+      component: {
+        name: SCREENS.signUp.name,
+      },
+    });
+  }
 
   return (
     <KeyboardAvoidingView
@@ -74,9 +85,14 @@ export function SignInScreen() {
         secureTextEntry
       />
 
+      <CustomButtonLink onPress={goToSingUpScreen}>
+        Cadastrar Usuário
+      </CustomButtonLink>
+
       <CustomButton
         text="Entrar"
         isLoading={isLoading}
+        disabled={isLoading}
         onPress={handleSignInPressed}
       />
     </KeyboardAvoidingView>
