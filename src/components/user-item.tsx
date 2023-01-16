@@ -1,12 +1,31 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {UserList} from '../data/user-list';
+import {QueryDataNodes} from '../models/user';
 
-export function UserItem({email, password}: UserList) {
+export function UserList({
+  role,
+  phone,
+  name,
+  id,
+  email,
+  birthDate,
+}: QueryDataNodes) {
+  const maskString = {
+    apply(value: string, pattern = '') {
+      let i = 0;
+      const v = String(value);
+      return pattern.replace(/#/g, () => v[i++]).replace(/undefined/g, '');
+    },
+  };
+  const pattern = '(##) # ####-####';
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{email}</Text>
-      <Text style={styles.text}>{password}</Text>
+      <Text style={styles.text}>role: {role}</Text>
+      <Text style={styles.text}>phone: {maskString.apply(phone, pattern)}</Text>
+      <Text style={styles.text}>name: {name}</Text>
+      <Text style={styles.text}>id: {id}</Text>
+      <Text style={styles.text}>email: {email}</Text>
+      <Text style={styles.text}>bithDate: {birthDate}</Text>
     </View>
   );
 }
@@ -14,8 +33,9 @@ export function UserItem({email, password}: UserList) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    paddingVertical: 20,
-    alignItems: 'center',
+    paddingVertical: 10,
+    alignItems: 'flex-start',
+    paddingLeft: 15,
   },
   text: {
     fontSize: 20,
