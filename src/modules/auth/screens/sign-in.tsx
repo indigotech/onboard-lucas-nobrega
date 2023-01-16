@@ -19,8 +19,8 @@ import {SCREENS, NavigationDefaultProps} from '../../../navigations';
 import {CustomButtonLink} from '../../../components/custom-button-link';
 
 export function SignInScreen(props: NavigationDefaultProps) {
-  const [email, setEmail] = useState('admin@taqtile.com.br');
-  const [password, setPassword] = useState('1234qwer');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const {signIn, isLoading} = useAuth();
 
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     alignItems: 'center',
-    marginTop: '15%',
+    marginTop: '10%',
   },
   logo: {
     width: '40%',

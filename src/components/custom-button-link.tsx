@@ -20,6 +20,7 @@ export function CustomButtonLink({
 
 const styles = StyleSheet.create({
   label: {
+    marginBottom: 10,
     color: '#4318FF',
     fontSize: 16,
   },
