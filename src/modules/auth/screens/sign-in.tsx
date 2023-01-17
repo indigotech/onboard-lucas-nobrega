@@ -15,14 +15,15 @@ import {CustomInput} from '../../../components/custom-input';
 import Logo from '../../../assets/images/logo.png';
 import {useAuth} from '../hooks/use-auth';
 
+export const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
+export const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
+
 export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const {signIn, isLoading} = useAuth();
 
-  const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
-  const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
   const passwordInputRef = useRef<TextInput>(null);
 
   async function handleSignInPressed() {

@@ -12,23 +12,21 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {CustomButton} from '../../../components/custom-button';
 import {CustomInput} from '../../../components/custom-input';
 import {useAuth} from '../hooks/use-auth';
-import DatePicker from 'react-native-datepicker';
+import DatePicker, {DatePickerCustomStylesProps} from 'react-native-datepicker';
 import {Select, roles} from '../../../components/select';
 import Logo from '../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
 import {SCREENS} from '../../../navigations';
+import {RegexEmail, RegexPassword} from '../screens/sign-in';
 
 export function SignUpScreen(props: NavigationComponentProps) {
-  const {isLoading, signUp} = useAuth();
+  const {isLoadingCreateUser, signUp} = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [birthDate, setBirthDate] = useState<Date>();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState('');
-
-  const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
-  const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
 
   const passwordInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
@@ -136,26 +134,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
         minDate="1923/01/01"
         maxDate={new Date()}
         placeholder="Data de Nascimento"
-        customStyles={{
-          dateInput: {
-            borderBottomColor: '#6d50f1',
-            borderBottomWidth: 2,
-            paddingHorizontal: 24,
-            borderTopColor: 'transparent',
-            borderRightColor: 'transparent',
-            borderLeftColor: 'transparent',
-            alignItems: 'flex-start',
-          },
-          placeholderText: {
-            color: 'gray',
-            fontSize: 18,
-            alignSelf: 'flex-start',
-          },
-          dateText: {
-            fontSize: 18,
-            fontWeight: '500',
-          },
-        }}
+        customStyles={customDatePicker}
         confirmBtnText="Confirmar"
         cancelBtnText="Cancelar"
         showIcon={false}
@@ -164,13 +143,34 @@ export function SignUpScreen(props: NavigationComponentProps) {
 
       <CustomButton
         text="Cadastrar"
-        isLoading={isLoading}
-        disabled={isLoading}
+        isLoading={isLoadingCreateUser}
+        disabled={isLoadingCreateUser}
         onPress={handleSignUpPressed}
       />
     </KeyboardAwareScrollView>
   );
 }
+
+const customDatePicker: DatePickerCustomStylesProps = {
+  dateInput: {
+    borderBottomColor: '#6d50f1',
+    borderBottomWidth: 2,
+    paddingHorizontal: 24,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderLeftColor: 'transparent',
+    alignItems: 'flex-start',
+  },
+  placeholderText: {
+    color: 'gray',
+    fontSize: 18,
+    alignSelf: 'flex-start',
+  },
+  dateText: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+};
 
 const styles = StyleSheet.create({
   container: {

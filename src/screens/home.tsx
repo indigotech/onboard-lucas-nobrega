@@ -26,7 +26,7 @@ const INITIAL_PAGINATION = {
 };
 
 export function HomeScreen(props: NavigationDefaultProps) {
-  const renderList = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
+  const renderUser = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
     return <UserList {...item} />;
   };
 
@@ -37,11 +37,11 @@ export function HomeScreen(props: NavigationDefaultProps) {
   });
 
   const {signOut} = useAuth();
+
   const {refetch} = useQuery<UserListResponse>(USERS_QUERY, {
     variables: {data: INITIAL_PAGINATION},
     onCompleted: ({users: {nodes, pageInfo}}) => {
       const {offset, hasNextPage} = pageInfo;
-
       setUsers(prev => [...prev, ...nodes]);
       setPagination(prev => ({...prev, offset, hasNextPage}));
     },
@@ -77,7 +77,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
         data={users}
         onEndReachedThreshold={0.3}
         onEndReached={fetchNewUsers}
-        renderItem={renderList}
+        renderItem={renderUser}
       />
 
       <CustomButtonLink onPress={goToSingUpScreen}>

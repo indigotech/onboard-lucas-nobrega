@@ -16,13 +16,11 @@ export const INITIAL_STORE = {
 const useStore = create<AuthStore>(() => INITIAL_STORE);
 
 useStore.subscribe(async ({token}) => {
-  const isAuthenticated = !!token;
   if (token) {
-    return await useAsyncStorage('token').setItem(token, () => {
-      setIsAuthenticatedStack(isAuthenticated);
-    });
+    await useAsyncStorage('token').setItem(token);
   }
-  setIsAuthenticatedStack(false);
+  setIsAuthenticatedStack(!!token);
+  return token;
 });
 
 export const Auth = {

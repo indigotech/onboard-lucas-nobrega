@@ -20,7 +20,7 @@ export interface SignUpCredentials {
 
 export const useAuth = () => {
   const [login, {loading}] = useLoginMutation();
-  const [CreateUser] = useCreateUserMutation();
+  const [CreateUser, {loading: loadingCreateUser}] = useCreateUserMutation();
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
@@ -66,6 +66,7 @@ export const useAuth = () => {
   );
 
   return {
+    isLoadingCreateUser: loadingCreateUser,
     token: Auth.token,
     isLoading: loading,
     signIn,
