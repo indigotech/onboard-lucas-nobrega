@@ -22,14 +22,14 @@ export function UserList({
   );
 }
 
-const maskString = {
+export const maskString = {
   apply(value: string, pattern = '') {
     let i = 0;
     const v = String(value);
     return pattern.replace(/#/g, () => v[i++]).replace(/undefined/g, '');
   },
 };
-const pattern = '(##) # ####-####';
+export const pattern = '(##) # ####-####';
 
 const styles = StyleSheet.create({
   container: {

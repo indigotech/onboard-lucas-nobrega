@@ -14,9 +14,7 @@ import {CustomButton} from '../../../components/custom-button';
 import {CustomInput} from '../../../components/custom-input';
 import Logo from '../../../assets/images/logo.png';
 import {useAuth} from '../hooks/use-auth';
-
-export const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
-export const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
+import {RegexEmail, RegexPassword} from '../../../libs/utils/validate';
 
 export function SignInScreen() {
   const [email, setEmail] = useState('');

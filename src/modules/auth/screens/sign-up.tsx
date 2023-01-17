@@ -17,7 +17,8 @@ import {Select, roles} from '../../../components/select';
 import Logo from '../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
 import {SCREENS} from '../../../navigations';
-import {RegexEmail, RegexPassword} from '../screens/sign-in';
+import {maskPhone, unMaskedPhone} from '../../../libs/utils/mask';
+import {RegexEmail, RegexPassword} from '../../../libs/utils/validate';
 
 export function SignUpScreen(props: NavigationComponentProps) {
   const {isLoadingCreateUser, signUp} = useAuth();
@@ -31,6 +32,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const passwordInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
   const numberInputRef = useRef<TextInput>(null);
+  console.log(phone);
 
   async function handleSignUpPressed() {
     const isEmailValid = RegexEmail.test(email);
@@ -42,14 +44,19 @@ export function SignUpScreen(props: NavigationComponentProps) {
     if (!isPasswordValid) {
       return Alert.alert('Senha Inválida!');
     }
-
     try {
-      await signUp({name, email, password, phone, role, birthDate});
+      await signUp({
+        name,
+        email,
+        password,
+        phone: unMaskedPhone(phone),
+        role,
+        birthDate,
+      });
       Navigation.push(props.componentId, {
         component: {name: SCREENS.home.name},
       });
     } catch (error: any) {
-      console.log('erro', error.message);
       Alert.alert(
         'Erro ao atualizar informações',
         'Ocorreu um erro ao atualizar informações. Tente novamente mais tarde.',
@@ -111,13 +118,12 @@ export function SignUpScreen(props: NavigationComponentProps) {
       <CustomInput
         placeholder="Número com DDD"
         value={phone}
-        onChangeText={setPhone}
+        onChangeText={text => setPhone(maskPhone(text))}
         keyboardType="numbers-and-punctuation"
         returnKeyType="next"
         ref={numberInputRef}
         onSubmitEditing={Keyboard.dismiss}
         blurOnSubmit={false}
-        maxLength={11}
       />
 
       <Select

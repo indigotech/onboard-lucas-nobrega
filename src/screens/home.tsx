@@ -10,20 +10,14 @@ import {
 import {CustomButton} from '../components/custom-button';
 import {SeparatorItem} from '../components/separator-item';
 import {UserList} from '../components/user-item';
-import {
-  UserListResponse,
-  UserListResponseNodes,
-} from '../modules/users/graphql/type-query';
+import {UserListResponseNodes} from '../modules/users/graphql/type-query';
 import {useAuth} from '../modules/auth/hooks/use-auth';
 import {USERS_QUERY} from '../modules/users';
 import {CustomButtonLink} from '../components/custom-button-link';
 import {Navigation} from 'react-native-navigation';
 import {NavigationDefaultProps, SCREENS} from '../navigations';
 
-const INITIAL_PAGINATION = {
-  limit: 20,
-  offset: 0,
-};
+const USERS_LIMIT = 20;
 
 export function HomeScreen(props: NavigationDefaultProps) {
   const renderUser = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
@@ -31,19 +25,17 @@ export function HomeScreen(props: NavigationDefaultProps) {
   };
 
   const [users, setUsers] = useState<UserListResponseNodes[]>([]);
-  const [pagination, setPagination] = useState({
-    ...INITIAL_PAGINATION,
-    hasNextPage: true,
-  });
+  const [offset, setOffset] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
 
   const {signOut} = useAuth();
 
-  const {refetch} = useQuery<UserListResponse>(USERS_QUERY, {
-    variables: {data: INITIAL_PAGINATION},
-    onCompleted: ({users: {nodes, pageInfo}}) => {
-      const {offset, hasNextPage} = pageInfo;
-      setUsers(prev => [...prev, ...nodes]);
-      setPagination(prev => ({...prev, offset, hasNextPage}));
+  useQuery(USERS_QUERY, {
+    fetchPolicy: 'network-only',
+    variables: {data: {limit: USERS_LIMIT, offset}},
+    onCompleted: data => {
+      setHasNextPage(data.users.pageInfo.hasNextPage);
+      setUsers(prev => [...prev, ...data.users.nodes]);
     },
   });
 
@@ -56,16 +48,10 @@ export function HomeScreen(props: NavigationDefaultProps) {
   }
 
   function fetchNewUsers() {
-    if (!pagination.hasNextPage) {
+    if (!hasNextPage) {
       return;
     }
-
-    refetch({
-      data: {
-        limit: INITIAL_PAGINATION.limit,
-        offset: INITIAL_PAGINATION.limit + pagination.offset,
-      },
-    });
+    setOffset(prev => prev + USERS_LIMIT);
   }
 
   return (
