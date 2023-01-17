@@ -2,6 +2,15 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {UserListResponseNodes} from '../modules/users/graphql/type-query';
 
+const maskString = {
+  apply(value: string, pattern = '') {
+    let i = 0;
+    const v = String(value);
+    return pattern.replace(/#/g, () => v[i++]).replace(/undefined/g, '');
+  },
+};
+const pattern = '(##) # ####-####';
+
 export function UserList({
   role,
   phone,
@@ -10,14 +19,6 @@ export function UserList({
   email,
   birthDate,
 }: UserListResponseNodes) {
-  const maskString = {
-    apply(value: string, pattern = '') {
-      let i = 0;
-      const v = String(value);
-      return pattern.replace(/#/g, () => v[i++]).replace(/undefined/g, '');
-    },
-  };
-  const pattern = '(##) # ####-####';
   return (
     <View style={styles.container}>
       <Text style={styles.text}>role: {role}</Text>

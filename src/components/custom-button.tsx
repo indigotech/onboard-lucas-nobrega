@@ -3,22 +3,21 @@ import {
   Text,
   StyleSheet,
   GestureResponderEvent,
-  Pressable,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 
 interface CustomButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   isLoading?: boolean;
+  disabled?: boolean;
   text: string;
 }
 
 export function CustomButton({onPress, text, isLoading}: CustomButtonProps) {
   return (
     <Pressable
-      style={({pressed}) =>
-        pressed ? styles.buttonPressedStyle : styles.buttonNormalStyle
-      }
+      style={isLoading ? styles.buttonPressedStyle : styles.buttonNormalStyle}
       onPress={onPress}>
       {isLoading ? (
         <ActivityIndicator size="small" color="white" />
