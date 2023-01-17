@@ -25,5 +25,7 @@ export interface CreateUserResponse {
 }
 
 export const useCreateUserMutation = () => {
-  return useMutation<CreateUserResponse>(CREATE_USER_MUTATION);
+  return useMutation<CreateUserResponse>(CREATE_USER_MUTATION, {
+    fetchPolicy: 'no-cache',
+  });
 };

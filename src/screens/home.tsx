@@ -30,12 +30,17 @@ export function HomeScreen(props: NavigationDefaultProps) {
 
   const {signOut} = useAuth();
 
-  useQuery(USERS_QUERY, {
-    fetchPolicy: 'network-only',
+  const {refetch, loading} = useQuery(USERS_QUERY, {
+    fetchPolicy: 'no-cache',
     variables: {data: {limit: USERS_LIMIT, offset}},
     onCompleted: data => {
       setHasNextPage(data.users.pageInfo.hasNextPage);
-      setUsers(prev => [...prev, ...data.users.nodes]);
+      setUsers(prev => {
+        if (offset === 0) {
+          return data.users.nodes;
+        }
+        return [...prev, ...data.users.nodes];
+      });
     },
   });
 
@@ -56,14 +61,19 @@ export function HomeScreen(props: NavigationDefaultProps) {
 
   return (
     <View style={styles.root}>
+      <Text style={styles.title}>Users</Text>
       <FlatList
-        ListHeaderComponent={<Text style={styles.title}>Users</Text>}
         ItemSeparatorComponent={SeparatorItem}
         keyExtractor={item => item.id}
         data={users}
         onEndReachedThreshold={0.3}
         onEndReached={fetchNewUsers}
         renderItem={renderUser}
+        refreshing={loading}
+        onRefresh={() => {
+          setOffset(0);
+          refetch({data: {limit: USERS_LIMIT, offset: 0}});
+        }}
       />
 
       <CustomButtonLink onPress={goToSingUpScreen}>

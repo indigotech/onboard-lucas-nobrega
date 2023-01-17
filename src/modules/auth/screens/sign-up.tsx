@@ -16,7 +16,6 @@ import DatePicker, {DatePickerCustomStylesProps} from 'react-native-datepicker';
 import {Select, roles} from '../../../components/select';
 import Logo from '../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
-import {SCREENS} from '../../../navigations';
 import {maskPhone, unMaskedPhone} from '../../../libs/utils/mask';
 import {RegexEmail, RegexPassword} from '../../../libs/utils/validate';
 
@@ -32,7 +31,6 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const passwordInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
   const numberInputRef = useRef<TextInput>(null);
-  console.log(phone);
 
   async function handleSignUpPressed() {
     const isEmailValid = RegexEmail.test(email);
@@ -53,9 +51,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
         role,
         birthDate,
       });
-      Navigation.push(props.componentId, {
-        component: {name: SCREENS.home.name},
-      });
+      Navigation.pop(props.componentId);
     } catch (error: any) {
       Alert.alert(
         'Erro ao atualizar informações',
