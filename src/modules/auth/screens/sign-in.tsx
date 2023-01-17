@@ -14,11 +14,8 @@ import {CustomButton} from '../../../components/custom-button';
 import {CustomInput} from '../../../components/custom-input';
 import Logo from '../../../assets/images/logo.png';
 import {useAuth} from '../hooks/use-auth';
-import {Navigation} from 'react-native-navigation';
-import {SCREENS, NavigationDefaultProps} from '../../../navigations';
-import {CustomButtonLink} from '../../../components/custom-button-link';
 
-export function SignInScreen(props: NavigationDefaultProps) {
+export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -43,14 +40,6 @@ export function SignInScreen(props: NavigationDefaultProps) {
 
   const {height} = useWindowDimensions();
 
-  function goToSingUpScreen() {
-    Navigation.push(props.componentId, {
-      component: {
-        name: SCREENS.signUp.name,
-      },
-    });
-  }
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -70,6 +59,7 @@ export function SignInScreen(props: NavigationDefaultProps) {
           passwordInputRef.current?.focus();
         }}
         keyboardType="email-address"
+        autoCapitalize="none"
         returnKeyType="next"
         blurOnSubmit={false}
       />
@@ -85,10 +75,6 @@ export function SignInScreen(props: NavigationDefaultProps) {
         secureTextEntry
       />
 
-      <CustomButtonLink onPress={goToSingUpScreen}>
-        Cadastrar Usuário
-      </CustomButtonLink>
-
       <CustomButton
         text="Entrar"
         isLoading={isLoading}
@@ -103,7 +89,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     alignItems: 'center',
-    marginTop: '10%',
+    marginTop: 20,
   },
   logo: {
     width: '40%',

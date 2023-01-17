@@ -16,13 +16,16 @@ import {
 } from '../modules/users/graphql/type-query';
 import {useAuth} from '../modules/auth/hooks/use-auth';
 import {USERS_QUERY} from '../modules/users';
+import {CustomButtonLink} from '../components/custom-button-link';
+import {Navigation} from 'react-native-navigation';
+import {NavigationDefaultProps, SCREENS} from '../navigations';
 
 const INITIAL_PAGINATION = {
   limit: 20,
   offset: 0,
 };
 
-export function HomeScreen() {
+export function HomeScreen(props: NavigationDefaultProps) {
   const renderList = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
     return <UserList {...item} />;
   };
@@ -44,12 +47,20 @@ export function HomeScreen() {
     },
   });
 
-  async function fetchNewUsers() {
+  function goToSingUpScreen() {
+    Navigation.push(props.componentId, {
+      component: {
+        name: SCREENS.signUp.name,
+      },
+    });
+  }
+
+  function fetchNewUsers() {
     if (!pagination.hasNextPage) {
       return;
     }
 
-    await refetch({
+    refetch({
       data: {
         limit: INITIAL_PAGINATION.limit,
         offset: INITIAL_PAGINATION.limit + pagination.offset,
@@ -68,6 +79,11 @@ export function HomeScreen() {
         onEndReached={fetchNewUsers}
         renderItem={renderList}
       />
+
+      <CustomButtonLink onPress={goToSingUpScreen}>
+        Cadastrar Usuário
+      </CustomButtonLink>
+
       <CustomButton text="Sair" onPress={signOut} />
     </View>
   );

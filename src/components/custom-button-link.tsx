@@ -20,8 +20,10 @@ export function CustomButtonLink({
 
 const styles = StyleSheet.create({
   label: {
+    marginTop: 10,
     marginBottom: 10,
     color: '#4318FF',
     fontSize: 16,
+    alignSelf: 'center',
   },
 });
