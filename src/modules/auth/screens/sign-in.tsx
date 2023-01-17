@@ -16,8 +16,8 @@ import Logo from '../../../assets/images/logo.png';
 import {useAuth} from '../hooks/use-auth';
 
 export function SignInScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@taqtile.com.br');
+  const [password, setPassword] = useState('1234qwer');
 
   const {signIn, isLoading} = useAuth();
 

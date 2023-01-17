@@ -10,33 +10,62 @@ import {
 import {CustomButton} from '../components/custom-button';
 import {SeparatorItem} from '../components/separator-item';
 import {UserList} from '../components/user-item';
-import {QueryDataNodes} from '../models/user';
+import {
+  UserListResponse,
+  UserListResponseNodes,
+} from '../modules/users/graphql/type-query';
 import {useAuth} from '../modules/auth/hooks/use-auth';
 import {USERS_QUERY} from '../modules/users';
 
+const INITIAL_PAGINATION = {
+  limit: 20,
+  offset: 0,
+};
+
 export function HomeScreen() {
-  const {signOut} = useAuth();
-  const renderList = ({item}: ListRenderItemInfo<QueryDataNodes>) => {
+  const renderList = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
     return <UserList {...item} />;
   };
 
-  const [queryDataNodes, setQueryDataNodes] = useState<QueryDataNodes[]>([]);
+  const [users, setUsers] = useState<UserListResponseNodes[]>([]);
+  const [pagination, setPagination] = useState({
+    ...INITIAL_PAGINATION,
+    hasNextPage: true,
+  });
 
-  useQuery(USERS_QUERY, {
-    variables: {data: {limit: null, offset: null}},
-    onCompleted: userData => {
-      setQueryDataNodes(userData.users.nodes);
+  const {signOut} = useAuth();
+  const {refetch} = useQuery<UserListResponse>(USERS_QUERY, {
+    variables: {data: INITIAL_PAGINATION},
+    onCompleted: ({users: {nodes, pageInfo}}) => {
+      const {offset, hasNextPage} = pageInfo;
+
+      setUsers(prev => [...prev, ...nodes]);
+      setPagination(prev => ({...prev, offset, hasNextPage}));
     },
   });
+
+  async function fetchNewUsers() {
+    if (!pagination.hasNextPage) {
+      return;
+    }
+
+    await refetch({
+      data: {
+        limit: INITIAL_PAGINATION.limit,
+        offset: INITIAL_PAGINATION.limit + pagination.offset,
+      },
+    });
+  }
 
   return (
     <View style={styles.root}>
       <FlatList
         ListHeaderComponent={<Text style={styles.title}>Users</Text>}
         ItemSeparatorComponent={SeparatorItem}
-        keyExtractor={item => item.email}
-        data={queryDataNodes}
-        onEndReachedThreshold={0.2}
+        keyExtractor={item => item.id}
+        data={users}
+        onEndReachedThreshold={0.3}
+        onEndReached={fetchNewUsers}
         renderItem={renderList}
       />
       <CustomButton text="Sair" onPress={signOut} />
