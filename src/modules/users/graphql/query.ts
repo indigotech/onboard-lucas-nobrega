@@ -4,11 +4,11 @@ export const USERS_QUERY = gql`
   query Query($data: PageInput) {
     users(data: $data) {
       nodes {
-        id
         name
+        email
+        id
         phone
         birthDate
-        email
         role
       }
       count
