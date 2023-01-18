@@ -49,7 +49,7 @@ export function FullUserScreen(props: NavigationDefaultProps) {
           key={data.user.id}
         />
       )}
-      <CustomButton text="Sair" onPress={goBack} />
+      <CustomButton text="Voltar para Lista" onPress={goBack} />
     </View>
   );
 }
