@@ -1,4 +1,4 @@
-import {useAsyncStorage} from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {create} from 'zustand';
 import {User} from '../../../models/user';
 import {setIsAuthenticatedStack} from '../../../navigations/utils/setIsAuthenticatedStack';
@@ -17,7 +17,7 @@ const useStore = create<AuthStore>(() => INITIAL_STORE);
 
 useStore.subscribe(async ({token}) => {
   if (token) {
-    await useAsyncStorage('token').setItem(token);
+    await AsyncStorage.setItem('token', token);
   }
   setIsAuthenticatedStack(!!token);
   return token;

@@ -13,7 +13,7 @@ import {CustomButton} from '../../../components/custom-button';
 import {CustomInput} from '../../../components/custom-input';
 import {useAuth} from '../hooks/use-auth';
 import DatePicker, {DatePickerCustomStylesProps} from 'react-native-datepicker';
-import {Select, roles} from '../../../components/select';
+import {Select} from '../../../components/select';
 import Logo from '../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
 import {maskPhone, unMaskedPhone} from '../../../libs/utils/mask';
@@ -32,6 +32,8 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const emailInputRef = useRef<TextInput>(null);
   const numberInputRef = useRef<TextInput>(null);
 
+  const roles = [{name: 'user'}, {name: 'admin'}];
+
   async function handleSignUpPressed() {
     const isEmailValid = RegexEmail.test(email);
     const isPasswordValid = RegexPassword.test(password);
@@ -42,22 +44,15 @@ export function SignUpScreen(props: NavigationComponentProps) {
     if (!isPasswordValid) {
       return Alert.alert('Senha Inválida!');
     }
-    try {
-      await signUp({
-        name,
-        email,
-        password,
-        phone: unMaskedPhone(phone),
-        role,
-        birthDate,
-      });
-      Navigation.pop(props.componentId);
-    } catch (error: any) {
-      Alert.alert(
-        'Erro ao atualizar informações',
-        'Ocorreu um erro ao atualizar informações. Tente novamente mais tarde.',
-      );
-    }
+    await signUp({
+      name,
+      email,
+      password,
+      phone: unMaskedPhone(phone),
+      role,
+      birthDate,
+    });
+    Navigation.pop(props.componentId);
   }
 
   const {height} = useWindowDimensions();

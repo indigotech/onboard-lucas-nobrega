@@ -8,3 +8,12 @@ export function maskPhone(value: string) {
 export function unMaskedPhone(value: string) {
   return value.replace(/[^0-9]/g, '');
 }
+
+export const maskString = {
+  apply(value: string, patternPhone = '') {
+    let i = 0;
+    const v = String(value);
+    return patternPhone.replace(/#/g, () => v[i++]).replace(/undefined/g, '');
+  },
+};
+export const patternPhone = '(##) # ####-####';

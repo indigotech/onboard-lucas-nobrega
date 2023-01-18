@@ -30,7 +30,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
 
   const {signOut} = useAuth();
 
-  const {refetch, loading} = useQuery(USERS_QUERY, {
+  const {loading} = useQuery(USERS_QUERY, {
     fetchPolicy: 'no-cache',
     variables: {data: {limit: USERS_LIMIT, offset}},
     onCompleted: data => {
@@ -72,7 +72,6 @@ export function HomeScreen(props: NavigationDefaultProps) {
         refreshing={loading}
         onRefresh={() => {
           setOffset(0);
-          refetch({data: {limit: USERS_LIMIT, offset: 0}});
         }}
       />
 

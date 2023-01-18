@@ -15,8 +15,6 @@ interface SelectInterface {
   placeholder: string;
 }
 
-export const roles = [{name: 'user'}, {name: 'admin'}];
-
 export const Select = ({
   options,
   onChangeSelect,

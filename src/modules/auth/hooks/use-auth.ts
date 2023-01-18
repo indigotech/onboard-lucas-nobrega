@@ -20,7 +20,7 @@ export interface SignUpCredentials {
 
 export const useAuth = () => {
   const [login, {loading}] = useLoginMutation();
-  const [CreateUser, {loading: loadingCreateUser}] = useCreateUserMutation();
+  const [createUser, {loading: loadingCreateUser}] = useCreateUserMutation();
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
@@ -52,7 +52,7 @@ export const useAuth = () => {
 
   const signUp = useCallback(
     async (signUpCredentials: SignUpCredentials) => {
-      const {data, errors} = await CreateUser({
+      const {data, errors} = await createUser({
         variables: {
           data: signUpCredentials,
         },
@@ -62,7 +62,7 @@ export const useAuth = () => {
         return;
       }
     },
-    [CreateUser],
+    [createUser],
   );
 
   return {
