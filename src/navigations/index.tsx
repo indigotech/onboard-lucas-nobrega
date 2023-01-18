@@ -1,13 +1,13 @@
 import {Navigation} from 'react-native-navigation';
-
 import {withProviders} from '../providers';
 import {HomeScreen} from '../screens/home';
-import {SignInScreen, SignUpScreen} from '../modules/auth';
+import {SignInScreen, SignUpScreen, FullUserScreen} from '../modules/auth';
 import {setIsAuthenticatedStack} from './utils/setIsAuthenticatedStack';
+import {UserListResponseNodes} from '../modules/users/graphql/type-query';
 
 export interface NavigationDefaultProps {
   componentId: string;
-  rootTag: number;
+  user?: UserListResponseNodes;
 }
 
 export const SCREENS = {
@@ -22,6 +22,10 @@ export const SCREENS = {
   signUp: {
     name: 'SignUp',
     component: SignUpScreen,
+  },
+  fullUser: {
+    name: 'FullUser',
+    component: FullUserScreen,
   },
 };
 

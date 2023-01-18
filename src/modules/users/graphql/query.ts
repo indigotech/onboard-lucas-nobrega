@@ -7,9 +7,6 @@ export const USERS_QUERY = gql`
         name
         email
         id
-        phone
-        birthDate
-        role
       }
       count
       pageInfo {

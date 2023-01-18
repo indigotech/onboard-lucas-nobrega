@@ -10,5 +10,6 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: '#5a433296',
+    marginBottom: 'auto',
   },
 });

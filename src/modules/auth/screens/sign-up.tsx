@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 20,
+    backgroundColor: '##f6f6f6',
   },
   logo: {
     width: '40%',
