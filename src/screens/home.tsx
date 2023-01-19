@@ -7,7 +7,7 @@ import {UserItem} from '../components/user-item';
 import {UserItemResponseNodes} from '../modules/users/graphql/type-query';
 import {useAuth} from '../modules/auth/hooks/use-auth';
 import {USERS_QUERY} from '../modules/users';
-import {CustomButtonLink} from '../components/custom-button-link';
+import {CustomButtonLink} from '../components/custom-button-link/custom-button-link';
 import {Navigation} from 'react-native-navigation';
 import {NavigationDefaultProps, SCREENS} from '../navigations';
 import {HeaderComponent} from '../components/header';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {UserItemResponseNodes} from '../modules/users/graphql/type-query';
-import {CustomButtonLink} from './custom-button-link';
+import {CustomButtonLink} from './custom-button-link/custom-button-link';
 
 interface UserItemProps {
   user: UserItemResponseNodes;
