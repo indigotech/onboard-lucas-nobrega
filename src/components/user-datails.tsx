@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {maskString, patternPhone} from '../libs/utils/mask';
-import {UserListResponseNodes} from '../modules/users/graphql/type-query';
+import {UserItemResponseNodes} from '../modules/users/graphql/type-query';
 
-export function UserDetails(user: UserListResponseNodes) {
+export function UserDetails(user: UserItemResponseNodes) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>name: {user.name}</Text>

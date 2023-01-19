@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import {CustomButton} from '../components/custom-button';
 import {SeparatorItem} from '../components/separator-item';
-import {UserList} from '../components/user-item';
-import {UserListResponseNodes} from '../modules/users/graphql/type-query';
+import {UserItem} from '../components/user-item';
+import {UserItemResponseNodes} from '../modules/users/graphql/type-query';
 import {useAuth} from '../modules/auth/hooks/use-auth';
 import {USERS_QUERY} from '../modules/users';
 import {CustomButtonLink} from '../components/custom-button-link';
@@ -15,8 +15,8 @@ import {HeaderComponent} from '../components/header';
 const USERS_LIMIT = 20;
 
 export function HomeScreen(props: NavigationDefaultProps) {
-  const renderUser = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
-    function goToFullUserScreen(user: UserListResponseNodes) {
+  const renderUser = ({item}: ListRenderItemInfo<UserItemResponseNodes>) => {
+    function goToUserDetailsScreen(user: UserItemResponseNodes) {
       Navigation.push(props.componentId, {
         component: {
           name: SCREENS.fullUser.name,
@@ -24,10 +24,10 @@ export function HomeScreen(props: NavigationDefaultProps) {
         },
       });
     }
-    return <UserList onTap={() => goToFullUserScreen(item)} user={item} />;
+    return <UserItem onTap={() => goToUserDetailsScreen(item)} user={item} />;
   };
 
-  const [users, setUsers] = useState<UserListResponseNodes[]>([]);
+  const [users, setUsers] = useState<UserItemResponseNodes[]>([]);
   const [offset, setOffset] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
 

@@ -1,4 +1,4 @@
-export interface UserListResponseNodes {
+export interface UserItemResponseNodes {
   id: string;
   name: string;
   phone: string;
@@ -14,9 +14,9 @@ interface PageInfo {
   hasPreviousPage: boolean;
 }
 
-export interface UserListResponse {
+export interface UserItemResponse {
   users: {
-    nodes: UserListResponseNodes[];
+    nodes: UserItemResponseNodes[];
     count: number;
     pageInfo: PageInfo;
   };

@@ -16,7 +16,7 @@ import {FULL_USER_QUERY} from '../../users/graphql/query-full-user';
 import Logo from '../../../assets/images/logo.png';
 import {SeparatorItem} from '../../../components/separator-item';
 
-export function FullUserScreen(props: NavigationDefaultProps) {
+export function UserDetailsScreen(props: NavigationDefaultProps) {
   const {loading, data} = useQuery(FULL_USER_QUERY, {
     fetchPolicy: 'no-cache',
     variables: {userId: props.user?.id},

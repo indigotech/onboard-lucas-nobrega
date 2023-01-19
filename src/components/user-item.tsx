@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {UserListResponseNodes} from '../modules/users/graphql/type-query';
+import {UserItemResponseNodes} from '../modules/users/graphql/type-query';
 import {CustomButtonLink} from './custom-button-link';
 
-interface UserListProps {
-  user: UserListResponseNodes;
+interface UserItemProps {
+  user: UserItemResponseNodes;
   onTap?: () => void;
 }
 
-export function UserList({user, onTap}: UserListProps) {
+export function UserItem({user, onTap}: UserItemProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>name: {user.name}</Text>
