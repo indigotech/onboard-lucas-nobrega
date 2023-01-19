@@ -2,14 +2,25 @@ import {useCallback} from 'react';
 import {Auth, INITIAL_STORE} from '../stores/auth-store';
 import {useLoginMutation} from '../graphql/mutations/login';
 import {Alert} from 'react-native';
+import {useCreateUserMutation} from '../graphql/mutations/add-user';
 
-export type Credentials = {
+export interface Credentials {
   email: string;
   password: string;
-};
+}
+
+export interface SignUpCredentials {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  role: string;
+  birthDate: Date | undefined;
+}
 
 export const useAuth = () => {
   const [login, {loading}] = useLoginMutation();
+  const [createUser, {loading: loadingCreateUser}] = useCreateUserMutation();
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
@@ -39,10 +50,27 @@ export const useAuth = () => {
     Auth.useStore.setState(INITIAL_STORE);
   }, []);
 
+  const signUp = useCallback(
+    async (signUpCredentials: SignUpCredentials) => {
+      const {data, errors} = await createUser({
+        variables: {
+          data: signUpCredentials,
+        },
+      });
+      if (!data || errors) {
+        Alert.alert('Erro de Requisição');
+        return;
+      }
+    },
+    [createUser],
+  );
+
   return {
+    isLoadingCreateUser: loadingCreateUser,
     token: Auth.token,
     isLoading: loading,
     signIn,
     signOut,
+    signUp,
   };
 };

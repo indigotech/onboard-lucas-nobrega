@@ -14,18 +14,14 @@ import {CustomButton} from '../../../components/custom-button';
 import {CustomInput} from '../../../components/custom-input';
 import Logo from '../../../assets/images/logo.png';
 import {useAuth} from '../hooks/use-auth';
-import {Navigation} from 'react-native-navigation';
-import {SCREENS, NavigationDefaultProps} from '../../../navigations';
-import {CustomButtonLink} from '../../../components/custom-button-link';
+import {RegexEmail, RegexPassword} from '../../../libs/utils/validate';
 
-export function SignInScreen(props: NavigationDefaultProps) {
+export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const {signIn, isLoading} = useAuth();
 
-  const RegexEmail = RegExp(/^[\w.]+@([\w-]+.)+[\w-]{2,4}$/);
-  const RegexPassword = RegExp(/^(?=.*\d)(?=.*[a-z])[0-9a-z]{7,}$/);
   const passwordInputRef = useRef<TextInput>(null);
 
   async function handleSignInPressed() {
@@ -42,14 +38,6 @@ export function SignInScreen(props: NavigationDefaultProps) {
   }
 
   const {height} = useWindowDimensions();
-
-  function goToSingUpScreen() {
-    Navigation.push(props.componentId, {
-      component: {
-        name: SCREENS.signUp.name,
-      },
-    });
-  }
 
   return (
     <KeyboardAvoidingView
@@ -70,6 +58,7 @@ export function SignInScreen(props: NavigationDefaultProps) {
           passwordInputRef.current?.focus();
         }}
         keyboardType="email-address"
+        autoCapitalize="none"
         returnKeyType="next"
         blurOnSubmit={false}
       />
@@ -85,10 +74,6 @@ export function SignInScreen(props: NavigationDefaultProps) {
         secureTextEntry
       />
 
-      <CustomButtonLink onPress={goToSingUpScreen}>
-        Cadastrar Usuário
-      </CustomButtonLink>
-
       <CustomButton
         text="Entrar"
         isLoading={isLoading}
@@ -103,7 +88,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     alignItems: 'center',
-    marginTop: '10%',
+    marginTop: 20,
   },
   logo: {
     width: '40%',

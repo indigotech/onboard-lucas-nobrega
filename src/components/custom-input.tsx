@@ -9,7 +9,6 @@ export const CustomInput = forwardRef<TextInput, TextInputProps>(
           {...rest}
           placeholderTextColor={'gray'}
           style={styles.input}
-          autoCapitalize="none"
           ref={ref}
         />
       </View>
@@ -27,10 +26,8 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 18,
-
     borderBottomColor: '#6d50f1',
     borderBottomWidth: 2,
-
     paddingHorizontal: 24,
     paddingVertical: 8,
   },
