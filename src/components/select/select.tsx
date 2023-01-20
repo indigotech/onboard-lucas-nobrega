@@ -1,5 +1,4 @@
 import {
-  View,
   TouchableOpacity,
   Modal,
   StyleSheet,
@@ -8,6 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useState} from 'react';
+import * as Styled from './select.styles';
 
 interface SelectInterface {
   options: {name: string}[];
@@ -25,42 +25,39 @@ export const Select = ({
 
   function renderOption(item: any) {
     return (
-      <TouchableOpacity
-        style={styles.optionContainer}
+      <Styled.OptionContainer
         onPress={() => {
           onChangeSelect(item.name);
           setText(item.name);
           setModalVisible(false);
         }}>
-        <Text style={styles.optionText}>{item.name}</Text>
-      </TouchableOpacity>
+        <Styled.OptionText>{item.name}</Styled.OptionText>
+      </Styled.OptionContainer>
     );
   }
 
   return (
     <>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => setModalVisible(true)}>
+      <Styled.Container onPress={() => setModalVisible(true)}>
         <Text
           style={text !== placeholder ? styles.textSelected : styles.text}
           numberOfLines={2}>
           {text}
         </Text>
-      </TouchableOpacity>
+      </Styled.Container>
       <Modal
         animationType="slide"
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
         <SafeAreaView>
-          <View style={styles.headerModal}>
+          <Styled.HeaderModal>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={styles.modalTitle}>{placeholder}</Text>
+              <Styled.ModalTitle>{placeholder}</Styled.ModalTitle>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={styles.modalCancel}>Cancelar</Text>
+              <Styled.ModalCancel>Cancelar</Styled.ModalCancel>
             </TouchableOpacity>
-          </View>
+          </Styled.HeaderModal>
           <FlatList
             data={options || []}
             keyExtractor={item => item.name}
@@ -73,52 +70,12 @@ export const Select = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 24,
-    borderBottomColor: '#6d50f1',
-    borderBottomWidth: 2,
-    maxWidth: '85%',
-    paddingVertical: 8,
-  },
   text: {
     fontSize: 18,
     color: 'gray',
   },
   textSelected: {
     fontSize: 18,
-    color: 'black',
-  },
-  headerModal: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 12,
-    borderBottomColor: '#6d50f1',
-    borderBottomWidth: 2,
-    paddingBottom: 12,
-  },
-  modalTitle: {
-    fontSize: 18,
-    color: 'black',
-  },
-  modalCancel: {
-    fontSize: 14,
-    color: 'blue',
-  },
-  optionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomColor: '#eee',
-    borderBottomWidth: 2,
-    padding: 10,
-  },
-  optionText: {
-    fontSize: 16,
     color: 'black',
   },
 });
