@@ -18,3 +18,7 @@ export const Input = styled.TextInput`
   padding-bottom: 8px;
   padding-top: 8px;
 `;
+
+export const ErrorMessage = styled.Text`
+  color: red;
+`;

@@ -20,6 +20,34 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState('');
+  const [errMsgName, setErrMsgName] = useState('');
+  const [errMsgEmail, setErrMsgEmail] = useState('');
+  const [errMsgPassword, setErrMsgPassword] = useState('');
+  const [errMsgPhone, setErrMsgPhone] = useState('');
+
+  const isEmailValid = RegexEmail.test(email);
+  const isPasswordValid = RegexPassword.test(password);
+
+  const handleValidationName = e => {
+    e.preventDefault();
+    name.length > 0 ? setErrMsgName('') : setErrMsgName('Nome Inválido!');
+  };
+  const handleValidationEmail = e => {
+    e.preventDefault();
+    isEmailValid ? setErrMsgEmail('') : setErrMsgEmail('Email Inválido!');
+  };
+  const handleValidationPassword = e => {
+    e.preventDefault();
+    isPasswordValid
+      ? setErrMsgPassword('')
+      : setErrMsgPassword('Senha Inválida!');
+  };
+  const handleValidationPhone = e => {
+    e.preventDefault();
+    phone.length > 15
+      ? setErrMsgPhone('')
+      : setErrMsgPhone('Telefone Inválido!');
+  };
 
   const passwordInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
@@ -28,15 +56,16 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const roles = [{name: 'user'}, {name: 'admin'}];
 
   async function handleSignUpPressed() {
-    const isEmailValid = RegexEmail.test(email);
-    const isPasswordValid = RegexPassword.test(password);
-
     if (!isEmailValid) {
       return Alert.alert('Email inválido!');
     }
     if (!isPasswordValid) {
       return Alert.alert('Senha Inválida!');
     }
+    if (roles === ''['']) {
+      return Alert.alert('Selecione um cargo de usuário!');
+    }
+
     await signUp({
       name,
       email,
@@ -60,6 +89,8 @@ export function SignUpScreen(props: NavigationComponentProps) {
         placeholder="Nome"
         value={name}
         onChangeText={setName}
+        onValidation={handleValidationName}
+        errorMessage={errMsgName}
         onSubmitEditing={() => {
           emailInputRef.current?.focus();
         }}
@@ -70,6 +101,8 @@ export function SignUpScreen(props: NavigationComponentProps) {
         placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
+        onValidation={handleValidationEmail}
+        errorMessage={errMsgEmail}
         onSubmitEditing={() => {
           passwordInputRef.current?.focus();
         }}
@@ -82,6 +115,8 @@ export function SignUpScreen(props: NavigationComponentProps) {
       <CustomInput
         placeholder="Senha"
         value={password}
+        onValidation={handleValidationPassword}
+        errorMessage={errMsgPassword}
         onChangeText={setPassword}
         onSubmitEditing={() => {
           numberInputRef.current?.focus();
@@ -96,6 +131,8 @@ export function SignUpScreen(props: NavigationComponentProps) {
       <CustomInput
         placeholder="Número com DDD"
         value={phone}
+        onValidation={handleValidationPhone}
+        errorMessage={errMsgPhone}
         onChangeText={text => setPhone(maskPhone(text))}
         keyboardType="numbers-and-punctuation"
         returnKeyType="next"
@@ -161,7 +198,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 20,
-    backgroundColor: '#f6f6f6',
   },
   dateComponent: {
     width: '100%',

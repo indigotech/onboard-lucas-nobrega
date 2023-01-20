@@ -10,15 +10,28 @@ import * as Styled from './sign-in.styles';
 export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errMsgEmail, setErrMsgEmail] = useState('');
+  const [errMsgPassword, setErrMsgPassword] = useState('');
+  const isEmailValid = RegexEmail.test(email);
+  const isPasswordValid = RegexPassword.test(password);
+
+  const handleValidationEmail = e => {
+    e.preventDefault();
+    isEmailValid ? setErrMsgEmail('') : setErrMsgEmail('Email Inválido!');
+  };
+
+  const handleValidationPassword = e => {
+    e.preventDefault();
+    isPasswordValid
+      ? setErrMsgPassword('')
+      : setErrMsgPassword('Senha Inválida!');
+  };
 
   const {signIn, isLoading} = useAuth();
 
   const passwordInputRef = useRef<TextInput>(null);
 
   async function handleSignInPressed() {
-    const isEmailValid = RegexEmail.test(email);
-    const isPasswordValid = RegexPassword.test(password);
-
     if (!isEmailValid) {
       return Alert.alert('Email inválido!');
     }
@@ -36,6 +49,8 @@ export function SignInScreen() {
       <Styled.Title>Bem-vindo(a){'\n'}à Taqtile!</Styled.Title>
       <CustomInput
         placeholder="E-mail"
+        onValidation={handleValidationEmail}
+        errorMessage={errMsgEmail}
         value={email}
         onChangeText={setEmail}
         onSubmitEditing={() => {
@@ -48,13 +63,14 @@ export function SignInScreen() {
       />
       <CustomInput
         placeholder="Senha"
+        onValidation={handleValidationPassword}
+        errorMessage={errMsgPassword}
         value={password}
         onChangeText={setPassword}
         onSubmitEditing={handleSignInPressed}
         returnKeyType="send"
         autoCapitalize="none"
         ref={passwordInputRef}
-        blurOnSubmit={false}
         secureTextEntry
       />
 
