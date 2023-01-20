@@ -64,7 +64,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
   }
 
   return (
-    <Styled.Container>
+    <Styled.ContainerHomeScreen>
       <FlatList
         ItemSeparatorComponent={SeparatorItem}
         ListHeaderComponent={Header}
@@ -86,6 +86,6 @@ export function HomeScreen(props: NavigationDefaultProps) {
       </CustomButtonLink>
 
       <CustomButton text="Sair" onPress={signOut} />
-    </Styled.Container>
+    </Styled.ContainerHomeScreen>
   );
 }

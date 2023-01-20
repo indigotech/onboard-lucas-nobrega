@@ -5,7 +5,9 @@ import {CustomInput} from '../../../../components/custom-input/custom-input';
 import Logo from '../../../../assets/images/logo.png';
 import {useAuth} from '../../hooks/use-auth';
 import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
+import {TitleHeader} from '../../../../components/title-header/title-header.styles';
 import * as Styled from './sign-in.styles';
+import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
 export function SignInScreen() {
   const [email, setEmail] = useState('');
@@ -42,11 +44,11 @@ export function SignInScreen() {
   }
 
   return (
-    <Styled.Container
+    <Styled.ContainerSignInScreen
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       onTouchStart={Keyboard.dismiss}>
-      <Styled.LogoTaq source={Logo} resizeMode="contain" />
-      <Styled.Title>Bem-vindo(a){'\n'}à Taqtile!</Styled.Title>
+      <LogoTaq source={Logo} resizeMode="contain" />
+      <TitleHeader>Bem-vindo(a){'\n'}à Taqtile!</TitleHeader>
       <CustomInput
         placeholder="E-mail"
         onValidation={handleValidationEmail}
@@ -80,6 +82,6 @@ export function SignInScreen() {
         disabled={isLoading}
         onPress={handleSignInPressed}
       />
-    </Styled.Container>
+    </Styled.ContainerSignInScreen>
   );
 }

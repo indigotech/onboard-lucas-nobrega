@@ -1,19 +1,20 @@
 import React from 'react';
 import {maskString, patternPhone} from '../../libs/utils/mask';
 import {UserItemResponseNodes} from '../../modules/users/graphql/type-query';
+import {UserTextInfo} from '../user-text-info/user-text-info.styles';
 import * as Styled from './user-details.styles';
 
 export function UserDetails(user: UserItemResponseNodes) {
   return (
-    <Styled.Container>
-      <Styled.Text>name: {user.name}</Styled.Text>
-      <Styled.Text>email: {user.email}</Styled.Text>
-      <Styled.Text>id: {user.id}</Styled.Text>
-      <Styled.Text>role: {user.role}</Styled.Text>
-      <Styled.Text>
+    <Styled.ContainerUserDetails>
+      <UserTextInfo>name: {user.name}</UserTextInfo>
+      <UserTextInfo>email: {user.email}</UserTextInfo>
+      <UserTextInfo>id: {user.id}</UserTextInfo>
+      <UserTextInfo>role: {user.role}</UserTextInfo>
+      <UserTextInfo>
         phone: {maskString.apply(user.phone, patternPhone)}
-      </Styled.Text>
-      <Styled.Text>bithDate: {user.birthDate}</Styled.Text>
-    </Styled.Container>
+      </UserTextInfo>
+      <UserTextInfo>bithDate: {user.birthDate}</UserTextInfo>
+    </Styled.ContainerUserDetails>
   );
 }

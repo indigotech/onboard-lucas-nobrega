@@ -1,13 +1,13 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const ContainerHeader = styled.View`
   display: flex;
   flex-direction: column;
   background-color: #f6f6f6;
   align-items: center;
 `;
 
-export const Title = styled.Text`
+export const TitleHome = styled.Text`
   color: #6d50f1;
   margin-top: 20px;
   text-align: center;

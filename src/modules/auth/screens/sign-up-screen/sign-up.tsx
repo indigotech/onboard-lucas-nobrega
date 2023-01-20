@@ -10,7 +10,8 @@ import Logo from '../../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
 import {maskPhone, unMaskedPhone} from '../../../../libs/utils/mask';
 import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
-import * as Styled from './sign-up.styles';
+import {TitleHeader} from '../../../../components/title-header/title-header.styles';
+import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
 export function SignUpScreen(props: NavigationComponentProps) {
   const {isLoadingCreateUser, signUp} = useAuth();
@@ -81,9 +82,9 @@ export function SignUpScreen(props: NavigationComponentProps) {
     <KeyboardAwareScrollView
       onTouchStart={Keyboard.dismiss}
       contentContainerStyle={styles.container}>
-      <Styled.LogoTaq source={Logo} resizeMode="contain" />
+      <LogoTaq source={Logo} resizeMode="contain" />
 
-      <Styled.Title>Cadastrar Usuário</Styled.Title>
+      <TitleHeader>Cadastrar Usuário</TitleHeader>
 
       <CustomInput
         placeholder="Nome"

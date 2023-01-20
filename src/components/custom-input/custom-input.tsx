@@ -15,8 +15,8 @@ export const CustomInput = forwardRef<TextInput, CustomInputProps>(
     };
 
     return (
-      <Styled.Container>
-        <Styled.Input
+      <Styled.ContainerCustomInput>
+        <Styled.CustomInput
           {...rest}
           placeholderTextColor={'gray'}
           ref={ref}
@@ -25,7 +25,7 @@ export const CustomInput = forwardRef<TextInput, CustomInputProps>(
         {errorMessage && (
           <Styled.ErrorMessage>{errorMessage}</Styled.ErrorMessage>
         )}
-      </Styled.Container>
+      </Styled.ContainerCustomInput>
     );
   },
 );

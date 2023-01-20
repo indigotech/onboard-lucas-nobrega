@@ -4,9 +4,9 @@ import {SeparatorItem} from '../separator-item/separator-item';
 
 export const Header = () => {
   return (
-    <Styled.Container>
-      <Styled.Title>User List</Styled.Title>
+    <Styled.ContainerHeader>
+      <Styled.TitleHome>User List</Styled.TitleHome>
       <SeparatorItem />
-    </Styled.Container>
+    </Styled.ContainerHeader>
   );
 };

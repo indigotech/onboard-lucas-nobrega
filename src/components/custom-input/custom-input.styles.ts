@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const ContainerCustomInput = styled.View`
   height: 50px;
   width: 100%;
   margin-bottom: 16px;
@@ -9,7 +9,7 @@ export const Container = styled.View`
   padding-left: 24px;
 `;
 
-export const Input = styled.TextInput`
+export const CustomInput = styled.TextInput`
   font-size: 18px;
   border-bottom-color: #6d50f1;
   border-bottom-width: 2px;
