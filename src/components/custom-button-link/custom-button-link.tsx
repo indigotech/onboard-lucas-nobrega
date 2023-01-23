@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  Text,
   TouchableOpacity,
   StyleSheet,
   TouchableOpacityProps,
 } from 'react-native';
+import * as Styled from './custom-button-link.styles';
 
 export function CustomButtonLink({
   children,
@@ -13,7 +13,7 @@ export function CustomButtonLink({
 }: TouchableOpacityProps) {
   return (
     <TouchableOpacity {...rest}>
-      <Text style={[styles.label, style]}>{children}</Text>
+      <Styled.Label style={[styles.label, style]}>{children}</Styled.Label>
     </TouchableOpacity>
   );
 }

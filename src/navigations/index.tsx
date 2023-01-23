@@ -1,6 +1,6 @@
 import {Navigation} from 'react-native-navigation';
 import {withProviders} from '../providers';
-import {HomeScreen} from '../screens/home';
+import {HomeScreen} from '../screens/home/home';
 import {SignInScreen, SignUpScreen, UserDetailsScreen} from '../modules/auth';
 import {setIsAuthenticatedStack} from './utils/setIsAuthenticatedStack';
 import {UserItemResponseNodes} from '../modules/users/graphql/type-query';

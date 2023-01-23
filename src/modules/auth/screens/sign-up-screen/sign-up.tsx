@@ -1,23 +1,16 @@
 import React, {useRef, useState} from 'react';
-import {
-  Alert,
-  Image,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  useWindowDimensions,
-} from 'react-native';
+import {Alert, Keyboard, StyleSheet, TextInput} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {CustomButton} from '../../../components/custom-button';
-import {CustomInput} from '../../../components/custom-input';
-import {useAuth} from '../hooks/use-auth';
+import {CustomButton} from '../../../../components/custom-buttom/custom-button';
+import {CustomInput} from '../../../../components/custom-input/custom-input';
+import {useAuth} from '../../hooks/use-auth';
 import DatePicker, {DatePickerCustomStylesProps} from 'react-native-datepicker';
-import {Select} from '../../../components/select';
-import Logo from '../../../assets/images/logo.png';
+import {Select} from '../../../../components/select/select';
+import Logo from '../../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
-import {maskPhone, unMaskedPhone} from '../../../libs/utils/mask';
-import {RegexEmail, RegexPassword} from '../../../libs/utils/validate';
+import {maskPhone, unMaskedPhone} from '../../../../libs/utils/mask';
+import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
+import * as Styled from './sign-up.styles';
 
 export function SignUpScreen(props: NavigationComponentProps) {
   const {isLoadingCreateUser, signUp} = useAuth();
@@ -55,19 +48,13 @@ export function SignUpScreen(props: NavigationComponentProps) {
     Navigation.pop(props.componentId);
   }
 
-  const {height} = useWindowDimensions();
-
   return (
     <KeyboardAwareScrollView
       onTouchStart={Keyboard.dismiss}
       contentContainerStyle={styles.container}>
-      <Image
-        source={Logo}
-        style={[styles.logo, {height: height * 0.3}]}
-        resizeMode="contain"
-      />
+      <Styled.LogoTaq source={Logo} resizeMode="contain" />
 
-      <Text style={styles.title}>Cadastrar Usuário</Text>
+      <Styled.Title>Cadastrar Usuário</Styled.Title>
 
       <CustomInput
         placeholder="Nome"
@@ -175,17 +162,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     backgroundColor: '#f6f6f6',
-  },
-  logo: {
-    width: '40%',
-    maxWidth: 150,
-    maxHeight: 150,
-  },
-  title: {
-    marginBottom: 'auto',
-    textAlign: 'center',
-    fontSize: 28,
-    fontWeight: 'bold',
   },
   dateComponent: {
     width: '100%',

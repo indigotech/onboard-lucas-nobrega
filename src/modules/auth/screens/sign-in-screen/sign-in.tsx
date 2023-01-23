@@ -1,20 +1,11 @@
 import React, {useRef, useState} from 'react';
-import {
-  Alert,
-  Image,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Keyboard,
-  Platform,
-  useWindowDimensions,
-  Text,
-  TextInput,
-} from 'react-native';
-import {CustomButton} from '../../../components/custom-button';
-import {CustomInput} from '../../../components/custom-input';
-import Logo from '../../../assets/images/logo.png';
-import {useAuth} from '../hooks/use-auth';
-import {RegexEmail, RegexPassword} from '../../../libs/utils/validate';
+import {Alert, Keyboard, Platform, TextInput} from 'react-native';
+import {CustomButton} from '../../../../components/custom-buttom/custom-button';
+import {CustomInput} from '../../../../components/custom-input/custom-input';
+import Logo from '../../../../assets/images/logo.png';
+import {useAuth} from '../../hooks/use-auth';
+import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
+import * as Styled from './sign-in.styles';
 
 export function SignInScreen() {
   const [email, setEmail] = useState('');
@@ -37,19 +28,12 @@ export function SignInScreen() {
     await signIn({email, password});
   }
 
-  const {height} = useWindowDimensions();
-
   return (
-    <KeyboardAvoidingView
+    <Styled.Container
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.root}
       onTouchStart={Keyboard.dismiss}>
-      <Image
-        source={Logo}
-        style={[styles.logo, {height: height * 0.3}]}
-        resizeMode="contain"
-      />
-      <Text style={styles.title}>Bem-vindo(a){'\n'}à Taqtile!</Text>
+      <Styled.LogoTaq source={Logo} resizeMode="contain" />
+      <Styled.Title>Bem-vindo(a){'\n'}à Taqtile!</Styled.Title>
       <CustomInput
         placeholder="E-mail"
         value={email}
@@ -80,25 +64,6 @@ export function SignInScreen() {
         disabled={isLoading}
         onPress={handleSignInPressed}
       />
-    </KeyboardAvoidingView>
+    </Styled.Container>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  logo: {
-    width: '40%',
-    maxWidth: 150,
-    maxHeight: 150,
-  },
-  title: {
-    marginBottom: 'auto',
-    textAlign: 'center',
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-});
