@@ -10,7 +10,8 @@ import Logo from '../../../../assets/images/logo.png';
 import {Navigation, NavigationComponentProps} from 'react-native-navigation';
 import {maskPhone, unMaskedPhone} from '../../../../libs/utils/mask';
 import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
-import * as Styled from './sign-up.styles';
+import {TitleHeader} from '../../../../components/title-header/title-header.styles';
+import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
 export function SignUpScreen(props: NavigationComponentProps) {
   const {isLoadingCreateUser, signUp} = useAuth();
@@ -21,6 +22,29 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState('');
 
+  const isEmailValid = RegexEmail.test(email);
+  const isPasswordValid = RegexPassword.test(password);
+
+  const handleValidationName = e => {
+    e.preventDefault();
+    return name.length > 0 ? '' : 'Nome inválido!';
+  };
+  const handleValidationEmail = e => {
+    e.preventDefault();
+    return isEmailValid ? '' : 'Email Inválido!';
+  };
+  const handleValidationPassword = e => {
+    e.preventDefault();
+    return isPasswordValid ? '' : 'Senha Inválido!';
+  };
+  const handleValidationPhone = e => {
+    e.preventDefault();
+    return phone.length > 15 ? '' : 'Telefone Inválido!';
+  };
+  const handleValidationRole = () => {
+    return roles === undefined ? 'Cargo Inválido!' : '';
+  };
+
   const passwordInputRef = useRef<TextInput>(null);
   const emailInputRef = useRef<TextInput>(null);
   const numberInputRef = useRef<TextInput>(null);
@@ -28,15 +52,16 @@ export function SignUpScreen(props: NavigationComponentProps) {
   const roles = [{name: 'user'}, {name: 'admin'}];
 
   async function handleSignUpPressed() {
-    const isEmailValid = RegexEmail.test(email);
-    const isPasswordValid = RegexPassword.test(password);
-
     if (!isEmailValid) {
       return Alert.alert('Email inválido!');
     }
     if (!isPasswordValid) {
       return Alert.alert('Senha Inválida!');
     }
+    if (role.length === 0) {
+      return Alert.alert('Selecione um cargo de usuário!');
+    }
+
     await signUp({
       name,
       email,
@@ -52,14 +77,15 @@ export function SignUpScreen(props: NavigationComponentProps) {
     <KeyboardAwareScrollView
       onTouchStart={Keyboard.dismiss}
       contentContainerStyle={styles.container}>
-      <Styled.LogoTaq source={Logo} resizeMode="contain" />
+      <LogoTaq source={Logo} resizeMode="contain" />
 
-      <Styled.Title>Cadastrar Usuário</Styled.Title>
+      <TitleHeader>Cadastrar Usuário</TitleHeader>
 
       <CustomInput
         placeholder="Nome"
         value={name}
         onChangeText={setName}
+        onBlurValidation={handleValidationName}
         onSubmitEditing={() => {
           emailInputRef.current?.focus();
         }}
@@ -70,6 +96,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
         placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
+        onBlurValidation={handleValidationEmail}
         onSubmitEditing={() => {
           passwordInputRef.current?.focus();
         }}
@@ -82,6 +109,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
       <CustomInput
         placeholder="Senha"
         value={password}
+        onBlurValidation={handleValidationPassword}
         onChangeText={setPassword}
         onSubmitEditing={() => {
           numberInputRef.current?.focus();
@@ -96,6 +124,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
       <CustomInput
         placeholder="Número com DDD"
         value={phone}
+        onBlurValidation={handleValidationPhone}
         onChangeText={text => setPhone(maskPhone(text))}
         keyboardType="numbers-and-punctuation"
         returnKeyType="next"
@@ -108,6 +137,7 @@ export function SignUpScreen(props: NavigationComponentProps) {
         options={roles}
         placeholder="Selecione um cargo"
         onChangeSelect={setRole}
+        onBlurValidation={handleValidationRole}
       />
 
       <DatePicker
@@ -161,7 +191,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 20,
-    backgroundColor: '#f6f6f6',
   },
   dateComponent: {
     width: '100%',

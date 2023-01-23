@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Label = styled.Text`
+export const LabelCustomButtonLink = styled.Text`
   margin-top: 10px;
   margin-bottom: 10px;
   color: #4318ff;

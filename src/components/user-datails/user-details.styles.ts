@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const ContainerUserDetails = styled.View`
   flex-direction: column;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -11,10 +11,4 @@ export const Container = styled.View`
   border-radius: 10px;
   border-width: 2px;
   border-color: black;
-`;
-
-export const Text = styled.Text`
-  color: #24170d;
-  font-size: 20px;
-  font-weight: 500;
 `;

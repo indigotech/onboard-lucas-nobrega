@@ -7,8 +7,9 @@ import {UserDetails} from '../../../../components/user-datails/user-datails';
 import {NavigationDefaultProps} from '../../../../navigations';
 import {FULL_USER_QUERY} from '../../../users/graphql/query-full-user';
 import Logo from '../../../../assets/images/logo.png';
-import {SeparatorItem} from '../../../../components/separator-item/separator-item';
-import * as Styled from './user-details.style';
+import {ContainerUserDetails} from './user-details.style';
+import {TitleHeader} from '../../../../components/title-header/title-header.styles';
+import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
 export function UserDetailsScreen(props: NavigationDefaultProps) {
   const {loading, data} = useQuery(FULL_USER_QUERY, {
@@ -21,10 +22,9 @@ export function UserDetailsScreen(props: NavigationDefaultProps) {
   }
 
   return (
-    <Styled.Container>
-      <Styled.LogoTaq source={Logo} resizeMode="contain" />
-      <Styled.Title>Dados Completos</Styled.Title>
-      <SeparatorItem />
+    <ContainerUserDetails>
+      <LogoTaq source={Logo} resizeMode="contain" />
+      <TitleHeader>Dados Completos</TitleHeader>
       {loading && <ActivityIndicator size="large" color="black" />}
       {!!data?.user && (
         <UserDetails
@@ -38,6 +38,6 @@ export function UserDetailsScreen(props: NavigationDefaultProps) {
         />
       )}
       <CustomButton text="Voltar para Lista" onPress={goBack} />
-    </Styled.Container>
+    </ContainerUserDetails>
   );
 }

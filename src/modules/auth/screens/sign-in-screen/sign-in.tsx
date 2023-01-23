@@ -5,20 +5,30 @@ import {CustomInput} from '../../../../components/custom-input/custom-input';
 import Logo from '../../../../assets/images/logo.png';
 import {useAuth} from '../../hooks/use-auth';
 import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
-import * as Styled from './sign-in.styles';
+import {TitleHeader} from '../../../../components/title-header/title-header.styles';
+import {ContainerSignInScreen} from './sign-in.styles';
+import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
 export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const isEmailValid = RegexEmail.test(email);
+  const isPasswordValid = RegexPassword.test(password);
+
+  const handleValidationEmail = e => {
+    e.preventDefault();
+    return isEmailValid ? '' : 'Email Inválido!';
+  };
+  const handleValidationPassword = e => {
+    e.preventDefault();
+    return isPasswordValid ? '' : 'Senha Inválido!';
+  };
 
   const {signIn, isLoading} = useAuth();
 
   const passwordInputRef = useRef<TextInput>(null);
 
   async function handleSignInPressed() {
-    const isEmailValid = RegexEmail.test(email);
-    const isPasswordValid = RegexPassword.test(password);
-
     if (!isEmailValid) {
       return Alert.alert('Email inválido!');
     }
@@ -29,13 +39,14 @@ export function SignInScreen() {
   }
 
   return (
-    <Styled.Container
+    <ContainerSignInScreen
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       onTouchStart={Keyboard.dismiss}>
-      <Styled.LogoTaq source={Logo} resizeMode="contain" />
-      <Styled.Title>Bem-vindo(a){'\n'}à Taqtile!</Styled.Title>
+      <LogoTaq source={Logo} resizeMode="contain" />
+      <TitleHeader>Bem-vindo(a){'\n'}à Taqtile!</TitleHeader>
       <CustomInput
         placeholder="E-mail"
+        onBlurValidation={handleValidationEmail}
         value={email}
         onChangeText={setEmail}
         onSubmitEditing={() => {
@@ -48,13 +59,13 @@ export function SignInScreen() {
       />
       <CustomInput
         placeholder="Senha"
+        onBlurValidation={handleValidationPassword}
         value={password}
         onChangeText={setPassword}
         onSubmitEditing={handleSignInPressed}
         returnKeyType="send"
         autoCapitalize="none"
         ref={passwordInputRef}
-        blurOnSubmit={false}
         secureTextEntry
       />
 
@@ -64,6 +75,6 @@ export function SignInScreen() {
         disabled={isLoading}
         onPress={handleSignInPressed}
       />
-    </Styled.Container>
+    </ContainerSignInScreen>
   );
 }

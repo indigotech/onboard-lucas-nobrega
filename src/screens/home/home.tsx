@@ -11,7 +11,7 @@ import {CustomButtonLink} from '../../components/custom-button-link/custom-butto
 import {Navigation} from 'react-native-navigation';
 import {NavigationDefaultProps, SCREENS} from '../../navigations';
 import {Header} from '../../components/header/header';
-import * as Styled from './home.styles';
+import {ContainerHomeScreen} from './home.styles';
 
 const USERS_LIMIT = 20;
 
@@ -34,7 +34,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
 
   const {signOut} = useAuth();
 
-  const {loading} = useQuery(USERS_QUERY, {
+  const {refetch, loading} = useQuery(USERS_QUERY, {
     fetchPolicy: 'no-cache',
     variables: {data: {limit: USERS_LIMIT, offset}},
     onCompleted: data => {
@@ -64,7 +64,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
   }
 
   return (
-    <Styled.Container>
+    <ContainerHomeScreen>
       <FlatList
         ItemSeparatorComponent={SeparatorItem}
         ListHeaderComponent={Header}
@@ -76,6 +76,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
         refreshing={loading}
         onRefresh={() => {
           setOffset(0);
+          refetch({data: {limit: USERS_LIMIT, offset: 0}});
         }}>
         <CustomButtonLink>Mostrar detalhes</CustomButtonLink>
       </FlatList>
@@ -85,6 +86,6 @@ export function HomeScreen(props: NavigationDefaultProps) {
       </CustomButtonLink>
 
       <CustomButton text="Sair" onPress={signOut} />
-    </Styled.Container>
+    </ContainerHomeScreen>
   );
 }
