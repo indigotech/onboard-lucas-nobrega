@@ -1,30 +1,33 @@
 import {useQuery} from '@apollo/client';
 import React, {useState} from 'react';
-import {
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {FlatList, ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import {CustomButton} from '../components/custom-button';
 import {SeparatorItem} from '../components/separator-item';
-import {UserList} from '../components/user-item';
-import {UserListResponseNodes} from '../modules/users/graphql/type-query';
+import {UserItem} from '../components/user-item';
+import {UserItemResponseNodes} from '../modules/users/graphql/type-query';
 import {useAuth} from '../modules/auth/hooks/use-auth';
 import {USERS_QUERY} from '../modules/users';
 import {CustomButtonLink} from '../components/custom-button-link';
 import {Navigation} from 'react-native-navigation';
 import {NavigationDefaultProps, SCREENS} from '../navigations';
+import {HeaderComponent} from '../components/header';
 
 const USERS_LIMIT = 20;
 
 export function HomeScreen(props: NavigationDefaultProps) {
-  const renderUser = ({item}: ListRenderItemInfo<UserListResponseNodes>) => {
-    return <UserList {...item} />;
+  const renderUser = ({item}: ListRenderItemInfo<UserItemResponseNodes>) => {
+    function goToUserDetailsScreen(user: UserItemResponseNodes) {
+      Navigation.push(props.componentId, {
+        component: {
+          name: SCREENS.fullUser.name,
+          passProps: {user},
+        },
+      });
+    }
+    return <UserItem onTap={() => goToUserDetailsScreen(item)} user={item} />;
   };
 
-  const [users, setUsers] = useState<UserListResponseNodes[]>([]);
+  const [users, setUsers] = useState<UserItemResponseNodes[]>([]);
   const [offset, setOffset] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
 
@@ -60,10 +63,10 @@ export function HomeScreen(props: NavigationDefaultProps) {
   }
 
   return (
-    <View style={styles.root}>
-      <Text style={styles.title}>Users</Text>
+    <View style={styles.container}>
       <FlatList
         ItemSeparatorComponent={SeparatorItem}
+        ListHeaderComponent={HeaderComponent}
         keyExtractor={item => item.id}
         data={users}
         onEndReachedThreshold={0.3}
@@ -72,8 +75,9 @@ export function HomeScreen(props: NavigationDefaultProps) {
         refreshing={loading}
         onRefresh={() => {
           setOffset(0);
-        }}
-      />
+        }}>
+        <CustomButtonLink>Mostrar detalhes</CustomButtonLink>
+      </FlatList>
 
       <CustomButtonLink onPress={goToSingUpScreen}>
         Cadastrar Usuário
@@ -85,13 +89,15 @@ export function HomeScreen(props: NavigationDefaultProps) {
 }
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
+    flex: 1,
     backgroundColor: '#f6f6f6',
-    flex: 1,
+    alignItems: 'center',
   },
-  footer: {
-    flex: 1,
-    position: 'relative',
+  logo: {
+    width: '40%',
+    maxWidth: 150,
+    maxHeight: 150,
   },
   title: {
     color: '#6d50f1',

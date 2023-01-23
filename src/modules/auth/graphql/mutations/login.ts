@@ -17,12 +17,12 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-type LoginResponse = {
+interface LoginResponse {
   login: {
     token: string;
     user: User;
   };
-};
+}
 
 export const useLoginMutation = () => {
   return useMutation<LoginResponse>(LOGIN_MUTATION);
