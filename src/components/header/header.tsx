@@ -1,12 +1,12 @@
 import React from 'react';
-import * as Styled from './header.styles';
+import {ContainerHeader, TitleHome} from './header.styles';
 import {SeparatorItem} from '../separator-item/separator-item';
 
 export const Header = () => {
   return (
-    <Styled.ContainerHeader>
-      <Styled.TitleHome>User List</Styled.TitleHome>
+    <ContainerHeader>
+      <TitleHome>User List</TitleHome>
       <SeparatorItem />
-    </Styled.ContainerHeader>
+    </ContainerHeader>
   );
 };

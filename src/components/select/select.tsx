@@ -7,57 +7,90 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useState} from 'react';
-import * as Styled from './select.styles';
+import {
+  ContainerSelect,
+  ErrorMessage,
+  HeaderModal,
+  ModalCancel,
+  ModalTitle,
+  OptionContainer,
+  OptionText,
+  TestView,
+} from './select.styles';
 
 interface SelectInterface {
   options: {name: string}[];
   onChangeSelect: (param: string) => any;
   placeholder: string;
+  onBlurValidation: () => string;
 }
 
 export const Select = ({
   options,
   onChangeSelect,
   placeholder,
+  onBlurValidation,
 }: SelectInterface) => {
   const [text, setText] = useState(placeholder);
   const [modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handlePressOut = () => {
+    const onBlurValidationString = onBlurValidation();
+    setErrorMessage(onBlurValidationString);
+  };
 
   function renderOption(item: any) {
     return (
-      <Styled.OptionContainer
+      <OptionContainer
         onPress={() => {
           onChangeSelect(item.name);
           setText(item.name);
           setModalVisible(false);
         }}>
-        <Styled.OptionText>{item.name}</Styled.OptionText>
-      </Styled.OptionContainer>
+        <OptionText>{item.name}</OptionText>
+      </OptionContainer>
     );
   }
 
   return (
     <>
-      <Styled.Container onPress={() => setModalVisible(true)}>
+      <ContainerSelect
+        onPress={() => setModalVisible(true)}
+        hasError={!!errorMessage}>
         <Text
           style={text !== placeholder ? styles.textSelected : styles.text}
           numberOfLines={2}>
           {text}
         </Text>
-      </Styled.Container>
+      </ContainerSelect>
+      <TestView hasError={!!errorMessage}>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      </TestView>
       <Modal
         animationType="slide"
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
+        onRequestClose={() => {
+          setModalVisible(false);
+          handlePressOut();
+        }}>
         <SafeAreaView>
-          <Styled.HeaderModal>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Styled.ModalTitle>{placeholder}</Styled.ModalTitle>
+          <HeaderModal>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                handlePressOut();
+              }}>
+              <ModalTitle>{placeholder}</ModalTitle>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Styled.ModalCancel>Cancelar</Styled.ModalCancel>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                handlePressOut();
+              }}>
+              <ModalCancel>Cancelar</ModalCancel>
             </TouchableOpacity>
-          </Styled.HeaderModal>
+          </HeaderModal>
           <FlatList
             data={options || []}
             keyExtractor={item => item.name}

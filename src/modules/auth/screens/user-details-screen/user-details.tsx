@@ -7,7 +7,7 @@ import {UserDetails} from '../../../../components/user-datails/user-datails';
 import {NavigationDefaultProps} from '../../../../navigations';
 import {FULL_USER_QUERY} from '../../../users/graphql/query-full-user';
 import Logo from '../../../../assets/images/logo.png';
-import * as Styled from './user-details.style';
+import {ContainerUserDetails} from './user-details.style';
 import {TitleHeader} from '../../../../components/title-header/title-header.styles';
 import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
@@ -22,7 +22,7 @@ export function UserDetailsScreen(props: NavigationDefaultProps) {
   }
 
   return (
-    <Styled.ContainerUserDetails>
+    <ContainerUserDetails>
       <LogoTaq source={Logo} resizeMode="contain" />
       <TitleHeader>Dados Completos</TitleHeader>
       {loading && <ActivityIndicator size="large" color="black" />}
@@ -38,6 +38,6 @@ export function UserDetailsScreen(props: NavigationDefaultProps) {
         />
       )}
       <CustomButton text="Voltar para Lista" onPress={goBack} />
-    </Styled.ContainerUserDetails>
+    </ContainerUserDetails>
   );
 }

@@ -2,11 +2,11 @@ import React from 'react';
 import {maskString, patternPhone} from '../../libs/utils/mask';
 import {UserItemResponseNodes} from '../../modules/users/graphql/type-query';
 import {UserTextInfo} from '../user-text-info/user-text-info.styles';
-import * as Styled from './user-details.styles';
+import {ContainerUserDetails} from './user-details.styles';
 
 export function UserDetails(user: UserItemResponseNodes) {
   return (
-    <Styled.ContainerUserDetails>
+    <ContainerUserDetails>
       <UserTextInfo>name: {user.name}</UserTextInfo>
       <UserTextInfo>email: {user.email}</UserTextInfo>
       <UserTextInfo>id: {user.id}</UserTextInfo>
@@ -15,6 +15,6 @@ export function UserDetails(user: UserItemResponseNodes) {
         phone: {maskString.apply(user.phone, patternPhone)}
       </UserTextInfo>
       <UserTextInfo>bithDate: {user.birthDate}</UserTextInfo>
-    </Styled.ContainerUserDetails>
+    </ContainerUserDetails>
   );
 }

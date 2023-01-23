@@ -6,27 +6,22 @@ import Logo from '../../../../assets/images/logo.png';
 import {useAuth} from '../../hooks/use-auth';
 import {RegexEmail, RegexPassword} from '../../../../libs/utils/validate';
 import {TitleHeader} from '../../../../components/title-header/title-header.styles';
-import * as Styled from './sign-in.styles';
+import {ContainerSignInScreen} from './sign-in.styles';
 import {LogoTaq} from '../../../../components/logo-taq/logo-taq.styles';
 
 export function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errMsgEmail, setErrMsgEmail] = useState('');
-  const [errMsgPassword, setErrMsgPassword] = useState('');
   const isEmailValid = RegexEmail.test(email);
   const isPasswordValid = RegexPassword.test(password);
 
   const handleValidationEmail = e => {
     e.preventDefault();
-    isEmailValid ? setErrMsgEmail('') : setErrMsgEmail('Email Inválido!');
+    return isEmailValid ? '' : 'Email Inválido!';
   };
-
   const handleValidationPassword = e => {
     e.preventDefault();
-    isPasswordValid
-      ? setErrMsgPassword('')
-      : setErrMsgPassword('Senha Inválida!');
+    return isPasswordValid ? '' : 'Senha Inválido!';
   };
 
   const {signIn, isLoading} = useAuth();
@@ -44,15 +39,14 @@ export function SignInScreen() {
   }
 
   return (
-    <Styled.ContainerSignInScreen
+    <ContainerSignInScreen
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       onTouchStart={Keyboard.dismiss}>
       <LogoTaq source={Logo} resizeMode="contain" />
       <TitleHeader>Bem-vindo(a){'\n'}à Taqtile!</TitleHeader>
       <CustomInput
         placeholder="E-mail"
-        onValidation={handleValidationEmail}
-        errorMessage={errMsgEmail}
+        onBlurValidation={handleValidationEmail}
         value={email}
         onChangeText={setEmail}
         onSubmitEditing={() => {
@@ -65,8 +59,7 @@ export function SignInScreen() {
       />
       <CustomInput
         placeholder="Senha"
-        onValidation={handleValidationPassword}
-        errorMessage={errMsgPassword}
+        onBlurValidation={handleValidationPassword}
         value={password}
         onChangeText={setPassword}
         onSubmitEditing={handleSignInPressed}
@@ -82,6 +75,6 @@ export function SignInScreen() {
         disabled={isLoading}
         onPress={handleSignInPressed}
       />
-    </Styled.ContainerSignInScreen>
+    </ContainerSignInScreen>
   );
 }

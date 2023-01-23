@@ -11,7 +11,7 @@ import {CustomButtonLink} from '../../components/custom-button-link/custom-butto
 import {Navigation} from 'react-native-navigation';
 import {NavigationDefaultProps, SCREENS} from '../../navigations';
 import {Header} from '../../components/header/header';
-import * as Styled from './home.styles';
+import {ContainerHomeScreen} from './home.styles';
 
 const USERS_LIMIT = 20;
 
@@ -64,7 +64,7 @@ export function HomeScreen(props: NavigationDefaultProps) {
   }
 
   return (
-    <Styled.ContainerHomeScreen>
+    <ContainerHomeScreen>
       <FlatList
         ItemSeparatorComponent={SeparatorItem}
         ListHeaderComponent={Header}
@@ -86,6 +86,6 @@ export function HomeScreen(props: NavigationDefaultProps) {
       </CustomButtonLink>
 
       <CustomButton text="Sair" onPress={signOut} />
-    </Styled.ContainerHomeScreen>
+    </ContainerHomeScreen>
   );
 }

@@ -1,31 +1,33 @@
 import {TextInput, TextInputProps} from 'react-native';
-import React, {forwardRef} from 'react';
-import * as Styled from './custom-input.styles';
-
+import React, {forwardRef, useState} from 'react';
+import {
+  ContainerCustomInput,
+  ErrorMessage,
+  CustomInputText,
+} from './custom-input.styles';
 interface CustomInputProps extends TextInputProps {
-  errorMessage?: string;
-  onValidation: (e: any) => void;
+  onBlurValidation: (e: any) => string;
   ref: TextInputProps;
 }
 
 export const CustomInput = forwardRef<TextInput, CustomInputProps>(
-  ({onValidation, errorMessage, ...rest}, ref) => {
+  ({onBlurValidation, ...rest}, ref) => {
+    const [errorMessage, setErrorMessage] = useState('');
     const handlePressOut = e => {
-      onValidation(e);
+      const onBlurValidationString = onBlurValidation(e);
+      setErrorMessage(onBlurValidationString);
     };
-
     return (
-      <Styled.ContainerCustomInput>
-        <Styled.CustomInput
+      <ContainerCustomInput>
+        <CustomInputText
+          hasError={!!errorMessage}
           {...rest}
           placeholderTextColor={'gray'}
           ref={ref}
           onBlur={handlePressOut}
         />
-        {errorMessage && (
-          <Styled.ErrorMessage>{errorMessage}</Styled.ErrorMessage>
-        )}
-      </Styled.ContainerCustomInput>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      </ContainerCustomInput>
     );
   },
 );

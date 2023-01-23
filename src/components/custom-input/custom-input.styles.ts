@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 
+interface CustomInputProps {
+  hasError: boolean;
+}
+
 export const ContainerCustomInput = styled.View`
   height: 50px;
   width: 100%;
@@ -9,9 +13,9 @@ export const ContainerCustomInput = styled.View`
   padding-left: 24px;
 `;
 
-export const CustomInput = styled.TextInput`
+export const CustomInputText = styled.TextInput<CustomInputProps>`
   font-size: 18px;
-  border-bottom-color: #6d50f1;
+  border-bottom-color: ${props => (props.hasError ? 'red' : '#6d50f1')};
   border-bottom-width: 2px;
   padding-right: 24px;
   padding-left: 24px;
